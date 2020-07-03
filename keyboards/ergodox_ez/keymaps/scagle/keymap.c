@@ -29,49 +29,41 @@ BLANK
 
 enum layers {
   HUB,
-  NUMPAD,
   DVORAK,
   DVORAK_SYM,
   QWERTY,
   QWERTY_MIR, 
   QWERTY_SYM, 
+  NUMPAD,
   UI, 
 };
 
 enum custom_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
-  ______________ = _______
+  ______________ = _______,
+  XXXXXXXXXXXXXX = XXXXXXX
+
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [HUB] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         KC_F13,
     KC_TAB,         TO(DVORAK),     TO(QWERTY),     ______________, ______________, ______________, ______________,                                 ______________, ______________, ______________, ______________, ______________, ______________, KC_F14,
-    LCTRL_T(KC_ESCAPE),TO(UI),      ______________, ______________, ______________, ______________,                                                                 ______________, ______________, ______________, ______________, ______________, KC_ENTER,
+    LCTL_T(KC_ESCAPE),TO(UI),       ______________, ______________, ______________, ______________,                                                                 ______________, ______________, ______________, ______________, ______________, KC_ENTER,
     ______________, ______________, ______________, ______________, ______________, ______________, ______________,                                 ______________, ______________, ______________, ______________, ______________, ______________, ______________,
-    ______________, ______________, ______________, ______________, ______________,                                                                                                 KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
+    ______________, ______________, ______________, ______________, TT(NUMPAD),                                                                                                     KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
                                                                                                     ______________, ______________, ______________, ______________,
                                                                                                                     ______________, ______________,
                                                                                     KC_SPACE,       KC_LSHIFT,      ______________, MO(UI),         KC_ENTER,       KC_BSPACE
   ),
-  [NUMPAD] = LAYOUT_ergodox_pretty(
-    ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         ______________,
-    ______________, ______________, ______________, ______________, ______________, ______________, ______________,                                 ______________, ______________, KC_7,           KC_8,           KC_9,           ______________, ______________,
-    ______________, ______________, ______________, ______________, ______________, ______________,                                                                 ______________, KC_4,           KC_5,           KC_6,           ______________, ______________,
-    ______________, ______________, ______________, ______________, ______________, ______________, ______________,                                 ______________, ______________, KC_1,           KC_2,           KC_3,           ______________, ______________,
-    ______________, ______________, ______________, ______________, ______________,                                                                                                 KC_0,           ______________, ______________, ______________, ______________,
-                                                                                                    ______________, ______________, ______________, ______________,
-                                                                                                                    ______________, ______________,
-                                                                                    ______________, ______________, ______________, ______________, ______________, ______________
-  ),
   [DVORAK] = LAYOUT_ergodox_pretty(
     ______________, KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_MINUS,                                       ______________, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           ______________,
     KC_TAB,         KC_QUOTE,       KC_COMMA,       KC_DOT,         KC_P,           KC_Y,           ______________,                                 TT(UI),         KC_F,           KC_G,           KC_C,           KC_R,           KC_L,           KC_SLASH,
-    LCTRL_T(KC_ESCAPE),KC_A,        KC_O,           KC_E,           KC_U,           KC_I,                                                                           KC_D,           KC_H,           KC_T,           KC_N,           KC_S,           KC_ENTER,
+    LCTL_T(KC_ESCAPE),KC_A,         KC_O,           KC_E,           KC_U,           KC_I,                                                                           KC_D,           KC_H,           KC_T,           KC_N,           KC_S,           KC_ENTER,
     KC_LGUI,        KC_SCOLON,      KC_Q,           KC_J,           KC_K,           KC_X,           TT(DVORAK_SYM),                                 KC_X,           KC_B,           KC_M,           KC_W,           KC_V,           KC_Z,           MO(DVORAK_SYM),
-    TO(HUB),        ______________, ______________, ______________, ______________,                                                                                                 KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_NO,
+    TO(HUB),        ______________, ______________, ______________, TT(NUMPAD),                                                                                                     KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_NO,
                                                                                                     ______________, ______________, ______________, ______________,
-                                                                                                                    MO(NUMPAD),     ______________,
+                                                                                                                    TT(NUMPAD),     ______________,
                                                                                     KC_SPACE,       KC_LSHIFT,      MO(DVORAK_SYM), MO(UI),         KC_ENTER,       KC_BSPACE
   ),
 //  TODO: ORIGINAL_SYMBOLS
@@ -85,6 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                                                                                                    ______________, ______________,
 //                                                                                    KC_SPACE,       KC_LSHIFT,      ______________, MO(UI),         KC_ENTER,       KC_BSPACE
 //  ),
+//  TODO: Redo this layer as we already have a NUMPAD layer that does this, and this is poorly planned.
   [DVORAK_SYM] = LAYOUT_ergodox_pretty(
     ______________, KC_EXLM,        KC_QUES,        KC_MINUS,       KC_GRAVE,       KC_UNDS,        KC_PC_COPY,                                     ______________, KC_TILD,        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
     ______________, KC_DQUO,        KC_COMMA,       KC_LCBR,        KC_RCBR,        KC_PERC,        ______________,                                 ______________, KC_SLASH,       KC_7,           KC_8,           KC_9,           ______________, ______________,
@@ -98,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWERTY] = LAYOUT_ergodox_pretty(
     MT(MOD_HYPR, KC_ESCAPE),KC_1,   KC_2,           KC_3,           KC_4,           KC_5,           TT(QWERTY_SYM),                                 ______________, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
     MT(MOD_MEH, KC_TAB),KC_Q,       KC_W,           KC_E,           KC_R,           KC_T,           KC_BSPACE,                                      ______________, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLASH,
-    KC_LCTRL,       KC_A,           KC_S,           KC_D,           KC_F,           KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_ENTER,
+    KC_LCTL,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_ENTER,
     KC_LALT,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_ENTER,                                       ______________, KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_HYPR,
     TO(HUB),        KC_LGUI,        ______________, ______________, TT(QWERTY_SYM),                                                                                                 KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_MEH,
                                                                                                     ______________, ______________, ______________, ______________,
@@ -125,15 +118,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     ______________, ______________,
                                                                                     KC_SPACE,       KC_LSHIFT,      ______________, ______________, KC_ENTER,       KC_BSPACE
   ),
+  [NUMPAD] = LAYOUT_ergodox_pretty(
+    ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         ______________,
+    ______________, ______________, ______________, ______________, ______________, ______________, ______________,                                 ______________, ______________, KC_7,           KC_8,           KC_9,           ______________, ______________,
+    ______________, ______________, ______________, ______________, ______________, ______________,                                                                 ______________, KC_4,           KC_5,           KC_6,           ______________, ______________,
+    ______________, ______________, ______________, ______________, ______________, ______________, ______________,                                 ______________, ______________, KC_1,           KC_2,           KC_3,           ______________, ______________,
+    ______________, ______________, ______________, ______________, ______________,                                                                                                 KC_0,           ______________, ______________, ______________, ______________,
+                                                                                                    ______________, ______________, ______________, ______________,
+                                                                                                                    ______________, ______________,
+                                                                                    ______________, ______________, ______________, ______________, ______________, ______________
+  ),
   [UI] = LAYOUT_ergodox_pretty(
     ______________, ______________, ______________, ______________, ______________, ______________, ______________,                                 ______________, ______________, ______________, ______________, ______________, ______________, ______________,
-    ______________, ______________, ______________, KC_MS_UP,       ______________, KC_MS_WH_UP,    ______________,                                 ______________, ______________, ______________, ______________, ______________, ______________, ______________,
-    ______________, ______________, KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_WH_DOWN,                                                                  ______________, KC_MEDIA_PREV_TRACK,KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,KC_MEDIA_NEXT_TRACK,______________,
-    ______________, ______________, ______________, KC_MS_WH_LEFT,  KC_MS_WH_RIGHT, KC_MS_BTN3,     ______________,                                 ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+    ______________, ______________, XXXXXXXXXXXXXX, KC_MS_UP,       XXXXXXXXXXXXXX, KC_MS_WH_UP,    ______________,                                 ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+    ______________, ______________, KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_WH_DOWN,                                                                  ______________, KC_MS_BTN1,     KC_MS_BTN2,     KC_MS_BTN3,     ______________, ______________,
+    ______________, ______________, XXXXXXXXXXXXXX, KC_MS_WH_LEFT,  KC_MS_WH_RIGHT, KC_MS_BTN3,     ______________,                                 ______________, ______________, KC_MEDIA_PREV_TRACK,KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,KC_MEDIA_NEXT_TRACK, ______________,
     TO(HUB),        ______________, ______________, ______________, ______________,                                                                                                 ______________, ______________, ______________, ______________, RESET,
                                                                                                     ______________, ______________, ______________, ______________,
                                                                                                                     ______________, ______________,
-                                                                                    KC_MS_BTN1,     KC_MS_BTN2,     ______________, ______________, KC_AUDIO_MUTE,  KC_MEDIA_PLAY_PAUSE
+                                                                                    ______________, ______________, ______________, ______________, KC_AUDIO_MUTE,  KC_MEDIA_PLAY_PAUSE
   ),
 };
 
@@ -209,42 +212,42 @@ uint32_t layer_state_set_user(uint32_t state) {
         if(!disable_layer_color) {
           rgblight_enable_noeeprom();
           rgblight_mode_noeeprom(1);
-          rgblight_sethsv_noeeprom(172,255,255);
+          rgblight_sethsv_noeeprom(25,255,255);
         }
         break;
       case 2:
         if(!disable_layer_color) {
           rgblight_enable_noeeprom();
           rgblight_mode_noeeprom(1);
-          rgblight_sethsv_noeeprom(130,255,192);
+          rgblight_sethsv_noeeprom(50,255,192);
         }
         break;
       case 3:
         if(!disable_layer_color) {
           rgblight_enable_noeeprom();
           rgblight_mode_noeeprom(1);
-          rgblight_sethsv_noeeprom(0,255,255);
+          rgblight_sethsv_noeeprom(100,255,255);
         }
         break;
       case 4:
         if(!disable_layer_color) {
           rgblight_enable_noeeprom();
           rgblight_mode_noeeprom(1);
-          rgblight_sethsv_noeeprom(41,255,255);
+          rgblight_sethsv_noeeprom(150,255,255);
         }
         break;
       case 5:
         if(!disable_layer_color) {
           rgblight_enable_noeeprom();
           rgblight_mode_noeeprom(1);
-          rgblight_sethsv_noeeprom(20,255,255);
+          rgblight_sethsv_noeeprom(200,255,255);
         }
         break;
       case 6:
         if(!disable_layer_color) {
           rgblight_enable_noeeprom();
           rgblight_mode_noeeprom(1);
-          rgblight_sethsv_noeeprom(215,255,255);
+          rgblight_sethsv_noeeprom(225,255,255);
         }
         break;
       default:
