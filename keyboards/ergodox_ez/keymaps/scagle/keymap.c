@@ -36,9 +36,23 @@
 //}}}
 
 
+//* Constants {{{
+const uint8_t layer_colors[][3] = {
+    {0   , 0   , 155},
+    {25  , 255 , 155},
+    {50  , 255 , 155},
+    {100 , 255 , 155},
+    {150 , 255 , 155},
+    {200 , 255 , 155},
+    {225 , 255 , 155},
+    {255 , 255 , 155},
+};
+//}}}
+
+
 //* Enumerations {{{
 enum layers {
-    HUB,
+    HUB = 0,
     DVO,
     DVO_SYM,
     QWE,
@@ -94,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //}}}
 
     //** Dvorak Base {{{
-    [HUB] = LAYOUT_ergodox(
+    [DVO] = LAYOUT_ergodox(
 
         //*** Left Hand {{{
         ______________    , KC_1           , KC_2           , KC_3           , KC_4       , KC_5 , KC_MINUS       ,
@@ -129,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //  TODO: Redo this layer as we already have a NUMPAD layer that does this, and this is poorly planned.
     [DVO_SYM] = LAYOUT_ergodox(
 
-        //*** Left HAnd {{{
+        //*** Left Hand {{{
         ______________, KC_EXLM,        KC_QUES,        KC_MINUS,       KC_GRAVE,       KC_UNDS,        KC_PC_COPY,                     
         ______________, KC_DQUO,        KC_COMMA,       KC_LCBR,        KC_RCBR,        KC_PERC,        ______________,                 
         ______________, KC_HASH,        KC_DLR,         KC_LPRN,        KC_RPRN,        KC_QUES,                                        
@@ -142,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_SPACE,       KC_LSHIFT,      ______________, 
         //}}}
 
-        //*** Right HAnd {{{
+        //*** Right Hand {{{
         ______________, KC_TILD,        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
         ______________, KC_SLASH,       KC_7,           KC_8,           KC_9,           ______________, ______________,
                         KC_EQUAL,       KC_4,           KC_5,           KC_6,           ______________, ______________,
@@ -161,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //** QWE Base {{{
     [QWE] = LAYOUT_ergodox(
 
-        //*** Left HAnd {{{
+        //*** Left Hand {{{
         MT(MOD_HYPR, KC_ESCAPE),KC_1,   KC_2,           KC_3,           KC_4,           KC_5,           TT(QWE_SYM),             
         MT(MOD_MEH, KC_TAB),KC_Q,       KC_W,           KC_E,           KC_R,           KC_T,           KC_BSPACE,                  
         KC_LCTL,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,                                       
@@ -174,7 +188,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LSFT_T(KC_SPACE),LCTL(KC_LALT), TT(QWE_MIR), 
         //}}}
 
-        //*** Right HAnd {{{
+        //*** Right Hand {{{
         ______________, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
         ______________, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLASH,
                         KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_ENTER,
@@ -220,7 +234,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //** QWE Left Hand Mirror (Gaming) {{{
     [QWE_MIR] = LAYOUT_ergodox(
 
-        //*** Left HAnd {{{
+        //*** Left Hand {{{
         KC_MINUS,       KC_0,           KC_9,           KC_8,           KC_7,           KC_6,           ______________,                 
         KC_BSLASH,      KC_P,           KC_O,           KC_I,           KC_U,           KC_Y,           ______________,                 
         ______________, KC_SCOLON,      KC_L,           KC_K,           KC_J,           KC_H,                                           
@@ -233,7 +247,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_SPACE,       KC_LSHIFT,      ______________, 
         //}}}
 
-        //*** Right HAnd {{{
+        //*** Right Hand {{{
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
                         ______________, ______________, ______________, ______________, ______________, ______________,
@@ -252,7 +266,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //** QWE Symbols 2 {{{
     [QWE_SYM] = LAYOUT_ergodox(
 
-        //*** Left HAnd {{{
+        //*** Left Hand {{{
         ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          ______________,                 
         ______________, KC_BSLASH,      KC_SLASH,       KC_LBRACKET,    KC_RBRACKET,    KC_TILD,        ______________,                 
         ______________, KC_LCBR,        KC_RCBR,        KC_LPRN,        KC_RPRN,        KC_GRAVE,                                       
@@ -265,7 +279,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_SPACE,       KC_LSHIFT,      ______________, 
         //}}}
 
-        //*** Right HAnd {{{
+        //*** Right Hand {{{
         ______________, ______________, KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
         ______________, ______________, KC_LABK,        KC_RABK,        ______________, ______________, ______________,
                         KC_DQUO,        KC_EQUAL,       KC_PLUS,        KC_MINUS,       KC_UNDS,        ______________,
@@ -284,7 +298,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //** Numpad {{{
     [NUMPAD] = LAYOUT_ergodox(
 
-        //*** Left HAnd {{{
+        //*** Left Hand {{{
         ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                          
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,                 
         ______________, ______________, ______________, ______________, ______________, ______________,                                 
@@ -297,7 +311,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________, ______________, ______________, 
         //}}}
 
-        //*** Right HAnd {{{
+        //*** Right Hand {{{
         KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         ______________,
         ______________, ______________, KC_7,           KC_8,           KC_9,           ______________, ______________,
                         ______________, KC_4,           KC_5,           KC_6,           ______________, ______________,
@@ -316,7 +330,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //** User Interface {{{
     [UI] = LAYOUT_ergodox(
 
-        //*** Left HAnd {{{
+        //*** Left Hand {{{
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,                 
         ______________, ______________, XXXXXXXXXXXXXX, KC_MS_UP,       XXXXXXXXXXXXXX, KC_MS_WH_UP,    ______________,                 
         ______________, ______________, KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_WH_DOWN,                                  
@@ -329,7 +343,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________, ______________, ______________, 
         //}}}
 
-        //*** Right HAnd {{{
+        //*** Right Hand {{{
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
                         ______________, KC_MS_BTN1,     KC_MS_BTN2,     KC_MS_BTN3,     ______________, ______________,
@@ -379,100 +393,94 @@ uint32_t layer_state_set_user(uint32_t state) {
     ergodox_right_led_1_off();
     ergodox_right_led_2_off();
     ergodox_right_led_3_off();
-    switch (layer) {
-        case 1:
-            ergodox_right_led_1_on();
-            break;
-        case 2:
-            ergodox_right_led_2_on();
-            break;
-        case 3:
-            ergodox_right_led_3_on();
-            break;
-        case 4:
-            ergodox_right_led_1_on();
-            ergodox_right_led_2_on();
-            break;
-        case 5:
-            ergodox_right_led_1_on();
-            ergodox_right_led_3_on();
-            break;
-        case 6:
-            ergodox_right_led_2_on();
-            ergodox_right_led_3_on();
-            break;
-        case 7:
-            ergodox_right_led_1_on();
-            ergodox_right_led_2_on();
-            ergodox_right_led_3_on();
-            break;
-        default:
-            break;
+    //
+    
+    if (layer & 0x1)
+        ergodox_right_led_3_on();
+    else
+        ergodox_right_led_3_off();
+
+    if (layer & 0x2)
+        ergodox_right_led_2_on();
+    else
+        ergodox_right_led_2_off();
+
+    if (layer & 0x4)
+        ergodox_right_led_1_on();
+    else
+        ergodox_right_led_1_off();
+
+    if (rgblight_config.enable == true) {
+        if(!disable_layer_color) {
+            rgblight_enable_noeeprom();
+            rgblight_mode_noeeprom(1);
+            rgblight_sethsv_noeeprom(layer_colors[layer][0], layer_colors[layer][1], layer_colors[layer][2]);
+        }
     }
-    switch (layer) {
-        case 0:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(0,0,255);
-            }
-            break;
-        case 1:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(25,255,255);
-            }
-            break;
-        case 2:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(50,255,192);
-            }
-            break;
-        case 3:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(100,255,255);
-            }
-            break;
-        case 4:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(150,255,255);
-            }
-            break;
-        case 5:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(200,255,255);
-            }
-            break;
-        case 6:
-            if(!disable_layer_color) {
-                rgblight_enable_noeeprom();
-                rgblight_mode_noeeprom(1);
-                rgblight_sethsv_noeeprom(225,255,255);
-            }
-            break;
-        default:
-            if(!disable_layer_color) {
-                rgblight_config.raw = eeconfig_read_rgblight();
-                if(rgblight_config.enable == true) {
-                    rgblight_enable();
-                    rgblight_mode(rgblight_config.mode);
-                    rgblight_sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
-                }
-                else {
-                    rgblight_disable();
-                }
-            }
-            break;
-    }
+//    switch (layer) {
+//        case 0:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(0,0,255);
+//            }
+//            break;
+//        case 1:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(25,255,255);
+//            }
+//            break;
+//        case 2:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(50,255,192);
+//            }
+//            break;
+//        case 3:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(100,255,255);
+//            }
+//            break;
+//        case 4:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(150,255,255);
+//            }
+//            break;
+//        case 5:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(200,255,255);
+//            }
+//            break;
+//        case 6:
+//            if(!disable_layer_color) {
+//                rgblight_enable_noeeprom();
+//                rgblight_mode_noeeprom(1);
+//                rgblight_sethsv_noeeprom(225,255,255);
+//            }
+//            break;
+//        default:
+//            if(!disable_layer_color) {
+//                rgblight_config.raw = eeconfig_read_rgblight();
+//                if(rgblight_config.enable == true) {
+//                    rgblight_enable();
+//                    rgblight_mode(rgblight_config.mode);
+//                    rgblight_sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
+//                }
+//                else {
+//                    rgblight_disable();
+//                }
+//            }
+//            break;
+//    }
     return state;
 
 };
