@@ -33,6 +33,7 @@
 #define ES_BSLS_MAC ALGR(KC_6)
 #define NO_PIPE_ALT KC_GRAVE
 #define NO_BSLS_ALT KC_EQUAL
+#define NUM_LEDS 3
 //}}}
 
 
@@ -365,9 +366,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 //* Extra Functionality {{{
 rgblight_config_t rgblight_config;
-bool disable_layer_color = 0;
-
 bool suspended = false;
+bool disable_layer_color = 0;
+uint8_t last_layer = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -389,98 +390,40 @@ uint32_t layer_state_set_user(uint32_t state) {
 
     uint8_t layer = biton32(state);
 
-    ergodox_board_led_off();
-    ergodox_right_led_1_off();
-    ergodox_right_led_2_off();
-    ergodox_right_led_3_off();
-    //
-    
-    if (layer & 0x1)
-        ergodox_right_led_3_on();
-    else
-        ergodox_right_led_3_off();
+    // Detect change in layers
+    if (layer != last_layer) {
 
-    if (layer & 0x2)
-        ergodox_right_led_2_on();
-    else
-        ergodox_right_led_2_off();
+        last_layer = layer;
 
-    if (layer & 0x4)
-        ergodox_right_led_1_on();
-    else
-        ergodox_right_led_1_off();
+        // Check if Indicator LEDs should be on
+        if (layer) {
+            ergodox_board_led_on();
+        } else {
+            ergodox_board_led_off();
+        }
 
+        // Check which LED's need to be on (follows binary format)
+        // LED's go [1, 2, 3, ...], so go backwards
+        for (int i = NUM_LEDS; i > 0; i--) {
+            if (layer >> (NUM_LEDS - i) & 0x1) {
+                ergodox_right_led_on(i);
+            } else {
+                ergodox_right_led_off(i);
+            }
+        }
+    }
+    // Write to Glow LEDs (TODO: Figure out why this needs to be written every time)
     if (rgblight_config.enable == true) {
         if(!disable_layer_color) {
             rgblight_enable_noeeprom();
             rgblight_mode_noeeprom(1);
             rgblight_sethsv_noeeprom(layer_colors[layer][0], layer_colors[layer][1], layer_colors[layer][2]);
         }
+        else {
+            rgblight_disable_noeeprom();
+        }
     }
-//    switch (layer) {
-//        case 0:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(0,0,255);
-//            }
-//            break;
-//        case 1:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(25,255,255);
-//            }
-//            break;
-//        case 2:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(50,255,192);
-//            }
-//            break;
-//        case 3:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(100,255,255);
-//            }
-//            break;
-//        case 4:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(150,255,255);
-//            }
-//            break;
-//        case 5:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(200,255,255);
-//            }
-//            break;
-//        case 6:
-//            if(!disable_layer_color) {
-//                rgblight_enable_noeeprom();
-//                rgblight_mode_noeeprom(1);
-//                rgblight_sethsv_noeeprom(225,255,255);
-//            }
-//            break;
-//        default:
-//            if(!disable_layer_color) {
-//                rgblight_config.raw = eeconfig_read_rgblight();
-//                if(rgblight_config.enable == true) {
-//                    rgblight_enable();
-//                    rgblight_mode(rgblight_config.mode);
-//                    rgblight_sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val);
-//                }
-//                else {
-//                    rgblight_disable();
-//                }
-//            }
-//            break;
-//    }
+
     return state;
 
 };
