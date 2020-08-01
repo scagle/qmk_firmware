@@ -39,6 +39,7 @@
 
 //* Constants {{{
 const uint8_t layer_colors[][3] = {
+  // Hue , Sat , Val
     {0   , 0   , 155},
     {25  , 255 , 155},
     {50  , 255 , 155},
@@ -57,10 +58,8 @@ enum layers {
     DVO,
     DVO_SYM,
     QWE,
-    QWE_MIR,
-    QWE_SYM,
-//  SYMB,
-    NUMPAD,
+    SYM,
+    EXTRA,
     UI,
 };
 
@@ -68,6 +67,7 @@ enum custom_keycodes {
     RGB_SLD = EZ_SAFE_RANGE,
     ______________ = _______,
     XXXXXXXXXXXXXX = XXXXXXX
+
 
 };
 //}}}
@@ -83,10 +83,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         //*** Left Hand {{{
         KC_ESCAPE          , KC_F1          , KC_F2          , KC_F3          , KC_F4          , KC_F5          , KC_F6          ,
-        KC_TAB             , TO(DVO)     , TO(QWE)     , ______________ , ______________ , ______________ , ______________ ,
+        KC_TAB             , TO(DVO)        , TO(QWE)        , ______________ , ______________ , ______________ , ______________ ,
         LCTL_T(KC_ESCAPE)  , TO(UI)         , ______________ , ______________ , ______________ , ______________ ,
         ______________     , ______________ , ______________ , ______________ , ______________ , ______________ , ______________ ,
-        ______________     , ______________ , ______________ , ______________ , TT(NUMPAD)     ,
+        ______________     , ______________ , ______________ , ______________ , TT(EXTRA)      ,
 
         // Thumb cluster
                              ______________ , ______________ ,
@@ -114,28 +114,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [DVO] = LAYOUT_ergodox(
 
         //*** Left Hand {{{
-        ______________    , KC_1           , KC_2           , KC_3           , KC_4       , KC_5 , KC_MINUS       ,
-        KC_TAB            , KC_QUOTE       , KC_COMMA       , KC_DOT         , KC_P       , KC_Y , ______________ ,
+        XXXXXXXXXXXXXX    , KC_1           , KC_2           , KC_3           , KC_4       , KC_5 , KC_MINUS       ,
+        KC_TAB            , KC_QUOTE       , KC_COMMA       , KC_DOT         , KC_P       , KC_Y , XXXXXXXXXXXXXX ,
         LCTL_T(KC_ESCAPE) , KC_A           , KC_O           , KC_E           , KC_U       , KC_I ,
         KC_LGUI           , KC_SCOLON      , KC_Q           , KC_J           , KC_K       , KC_X , TT(DVO_SYM) ,
-        TO(HUB)           , ______________ , ______________ , ______________ , TT(NUMPAD) ,
+        TO(HUB)           , XXXXXXXXXXXXXX , XXXXXXXXXXXXXX , XXXXXXXXXXXXXX , TT(EXTRA)  ,
 
         // Thumb cluster
-                   ______________ , ______________ ,
-                                    TT(NUMPAD)     ,
+                   XXXXXXXXXXXXXX , XXXXXXXXXXXXXX ,
+                                    TT(EXTRA)      ,
         KC_SPACE , KC_LSHIFT      , MO(DVO_SYM) ,
         //}}}
 
         //*** Right Hand {{{
-        ______________ , KC_6 , KC_7    , KC_8    , KC_9  , KC_0     , ______________ ,
+        XXXXXXXXXXXXXX , KC_6 , KC_7    , KC_8    , KC_9  , KC_0     , XXXXXXXXXXXXXX ,
         TT(UI)         , KC_F , KC_G    , KC_C    , KC_R  , KC_L     , KC_SLASH       ,
                          KC_D , KC_H    , KC_T    , KC_N  , KC_S     , KC_ENTER       ,
         KC_X           , KC_B , KC_M    , KC_W    , KC_V  , KC_Z     , MO(DVO_SYM) ,
                                 KC_LEFT , KC_DOWN , KC_UP , KC_RIGHT , KC_NO          ,
 
         // Thumb cluster
-        ______________ , ______________ ,
-        ______________ ,
+        XXXXXXXXXXXXXX , XXXXXXXXXXXXXX ,
+        XXXXXXXXXXXXXX ,
         MO(UI)         , KC_ENTER       , KC_BSPACE
         //}}}
 
@@ -143,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //}}}
 
     //** Dvorak Symbols  {{{
-    //  TODO: Redo this layer as we already have a NUMPAD layer that does this, and this is poorly planned.
+    //  TODO: Redo this layer as we already have a EXTRA layer that does this, and this is poorly planned.
     [DVO_SYM] = LAYOUT_ergodox(
 
         //*** Left Hand {{{
@@ -175,31 +175,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     //}}}
 
-    //** QWE Base {{{
+    //** QWERTY Base {{{
     [QWE] = LAYOUT_ergodox(
 
         //*** Left Hand {{{
-        KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           ______________,
+        KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           XXXXXXXXXXXXXX,
         KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_BSPACE,
         KC_LCTL,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,
         KC_LALT,        LCMD_T(KC_Z),   KC_X,           KC_C,           KC_V,           KC_B,           KC_ENTER,
-        TO(HUB),        KC_LGUI,        ______________, ______________, ______________,
+        TO(HUB),        KC_LGUI,        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, TT(EXTRA),
 
         // Thumb cluster
-                        ______________, ______________,
-                                        ______________,
-        KC_SPACE,       KC_LSHIFT,      TT(QWE_SYM),
+                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+                                        XXXXXXXXXXXXXX,
+        KC_SPACE,       KC_LSHIFT,      MO(SYM),
         //}}}
 
         //*** Right Hand {{{
-        ______________, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
-        ______________, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_BSLASH,
+        XXXXXXXXXXXXXX, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
+        XXXXXXXXXXXXXX, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_SLASH,
                         KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_ENTER,
-        ______________, KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_HYPR,
+        XXXXXXXXXXXXXX, KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_HYPR,
                                         KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_MEH,
 
         // Thumb cluster
-        ______________, ______________,
+        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
         KC_HYPR,
         MO(UI),         KC_ENTER,       KC_BSPACE
         //}}}
@@ -207,42 +207,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     //}}}
 
-    //** QWE Symbols {{{
-    /*
-    [SYMB] = LAYOUT_ergodox(
-
-        // Left
-        VRSN,   KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_TRNS,
-        RESET,  KC_EXLM,KC_AT,  KC_LCBR,KC_RCBR,KC_PIPE,KC_TRNS,
-        KC_TRNS,KC_HASH,KC_DLR, KC_LPRN,KC_RPRN,KC_GRV,
-        EPRM,KC_PERC,KC_CIRC,KC_LBRC,KC_RBRC,KC_TILD,KC_TRNS,
-           KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
-                                        RGB_MOD,RGB_LYR,
-                                                KC_TRNS,
-                                RGB_VAD,RGB_VAI,KC_TRNS,
-        // Right
-        KC_TRNS, KC_F6,   KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        KC_TRNS, KC_UP,   KC_7,   KC_8,    KC_9,    KC_ASTR, KC_F12,
-                 KC_DOWN, KC_4,   KC_5,    KC_6,    KC_PLUS, KC_TRNS,
-        KC_TRNS, KC_AMPR, KC_1,   KC_2,    KC_3,    KC_BSLS, KC_TRNS,
-                          KC_TRNS,KC_DOT,  KC_0,    KC_EQL,  KC_TRNS,
-        RGB_TOG, RGB_SLD,
-        KC_TRNS,
-        KC_TRNS, RGB_HUD, RGB_HUI
-
-    ),
-    */
-    //}}}
-
-    //** QWE Left Hand Mirror (Gaming) {{{
-    [QWE_MIR] = LAYOUT_ergodox(
+    //** Generic Symbols {{{
+    [SYM] = LAYOUT_ergodox(
 
         //*** Left Hand {{{
-        KC_MINUS,       KC_0,           KC_9,           KC_8,           KC_7,           KC_6,           ______________,
-        KC_BSLASH,      KC_P,           KC_O,           KC_I,           KC_U,           KC_Y,           ______________,
-        ______________, KC_SCOLON,      KC_L,           KC_K,           KC_J,           KC_H,
-        ______________, KC_SLASH,       KC_DOT,         KC_COMMA,       KC_M,           KC_N,           ______________,
-        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       TO(QWE),
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+        ______________, KC_TILD,        KC_COMMA,       KC_LABK,        KC_BSLASH,      KC_PLUS,        ______________,
+        ______________, KC_AT,          KC_LCBR,        KC_LBRACKET,    KC_LPRN,        KC_EQUAL,
+        ______________, KC_HASH,        KC_QUOTE,       KC_DQUO,        KC_DLR,         KC_MINUS,       ______________,
+        TO(HUB),        ______________, ______________, ______________, ______________,
 
         // Thumb cluster
                         ______________, ______________,
@@ -252,54 +225,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         //*** Right Hand {{{
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
-        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
-                        ______________, ______________, ______________, ______________, ______________, ______________,
-        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+        ______________, KC_ASTR,        KC_PERC,        KC_RABK,        KC_DOT,         ______________, ______________,
+                        KC_SLASH,       KC_RPRN,        KC_RBRACKET,    KC_RCBR,        KC_UNDS,        ______________,
+        ______________, KC_AMPR,        KC_PIPE,        KC_CIRC,        KC_EXLM,        KC_QUES,        ______________,
                                         ______________, ______________, ______________, ______________, ______________,
 
         // Thumb cluster
         ______________, ______________,
         ______________,
-        MO(UI),         KC_ENTER,       KC_BSPACE
+        KC_LSHIFT,      KC_ENTER,       KC_BSPACE
         //}}}
 
     ),
     //}}}
 
-    //** QWE Symbols 2 {{{
-    [QWE_SYM] = LAYOUT_ergodox(
-
-        //*** Left Hand {{{
-        ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          ______________,
-        ______________, KC_BSLASH,      KC_SLASH,       KC_LBRACKET,    KC_RBRACKET,    KC_TILD,        ______________,
-        ______________, KC_LCBR,        KC_RCBR,        KC_LPRN,        KC_RPRN,        KC_GRAVE,
-        ______________, KC_EXLM,        KC_AT,          KC_HASH,        KC_DLR,         KC_PERC,        ______________,
-        TO(HUB),        ______________, ______________, ______________, TO(QWE),
-
-        // Thumb cluster
-                        ______________, ______________,
-                                        ______________,
-        KC_SPACE,       KC_LSHIFT,      ______________,
-        //}}}
-
-        //*** Right Hand {{{
-        ______________, ______________, KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
-        ______________, ______________, KC_LABK,        KC_RABK,        ______________, ______________, ______________,
-                        KC_DQUO,        KC_EQUAL,       KC_PLUS,        KC_MINUS,       KC_UNDS,        ______________,
-        ______________, KC_CIRC,        KC_CIRC,        KC_ASTR,        KC_LPRN,        KC_RPRN,        ______________,
-                                        ______________, ______________, ______________, ______________, ______________,
-
-        // Thumb cluster
-        ______________, ______________,
-        ______________,
-        ______________, KC_ENTER,       KC_BSPACE
-        //}}}
-
-    ),
-    //}}}
-
-    //** Numpad {{{
-    [NUMPAD] = LAYOUT_ergodox(
+    //** Extra (Function + Numpad Keys) {{{
+    [EXTRA] = LAYOUT_ergodox(
 
         //*** Left Hand {{{
         ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,
@@ -351,7 +292,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
                         ______________, KC_MS_BTN1,     KC_MS_BTN2,     KC_MS_BTN3,     ______________, ______________,
         ______________, ______________, KC_MEDIA_PREV_TRACK,KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,KC_MEDIA_NEXT_TRACK, ______________,
-                                        ______________, ______________, ______________, ______________, RESET,
+                                        RGB_TOG,        ______________, ______________, ______________, RESET,
 
         // Thumb cluster
         ______________, ______________,
