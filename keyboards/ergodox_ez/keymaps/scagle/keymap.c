@@ -20,20 +20,22 @@
 
 
 //* Defines {{{
-#define KC_MAC_UNDO LGUI(KC_Z)
-#define KC_MAC_CUT LGUI(KC_X)
-#define KC_MAC_COPY LGUI(KC_C)
+#define KC_MAC_UNDO  LGUI(KC_Z)
+#define KC_MAC_CUT   LGUI(KC_X)
+#define KC_MAC_COPY  LGUI(KC_C)
 #define KC_MAC_PASTE LGUI(KC_V)
-#define KC_PC_UNDO LCTL(KC_Z)
-#define KC_PC_CUT LCTL(KC_X)
-#define KC_PC_COPY LCTL(KC_C)
-#define KC_PC_PASTE LCTL(KC_V)
-#define ES_LESS_MAC KC_GRAVE
-#define ES_GRTR_MAC LSFT(KC_GRAVE)
-#define ES_BSLS_MAC ALGR(KC_6)
-#define NO_PIPE_ALT KC_GRAVE
-#define NO_BSLS_ALT KC_EQUAL
-#define NUM_LEDS 3
+#define KC_MAC_SAVE  LGUI(KC_S)
+#define KC_PC_UNDO   LCTL(KC_Z)
+#define KC_PC_CUT    LCTL(KC_X)
+#define KC_PC_COPY   LCTL(KC_C)
+#define KC_PC_PASTE  LCTL(KC_V)
+#define KC_PC_SAVE   LCTL(KC_S)
+#define ES_LESS_MAC  KC_GRAVE
+#define ES_GRTR_MAC  LSFT(KC_GRAVE)
+#define ES_BSLS_MAC  ALGR(KC_6)
+#define NO_PIPE_ALT  KC_GRAVE
+#define NO_BSLS_ALT  KC_EQUAL
+#define NUM_LEDS     3
 //}}}
 
 
@@ -55,10 +57,10 @@ const uint8_t layer_colors[][3] = {
 //* Enumerations {{{
 enum layers {
     HUB = 0,
-    DVO,
-    DVO_SYM,
     QWE,
     SYM,
+    ART1,
+    ART2,
     EXTRA,
     UI,
 };
@@ -66,9 +68,45 @@ enum layers {
 enum custom_keycodes {
     RGB_SLD = EZ_SAFE_RANGE,
     ______________ = _______,
-    XXXXXXXXXXXXXX = XXXXXXX
+    XXXXXXXXXXXXXX = XXXXXXX,
+    ___CRITICAL___ = _______,  // Key on layer beneath this one is critically important
 
+    // Krita Painting Mappings
+    BRUSH_TOOL     = KC_B,
+    MOVE_TOOL      = KC_T,
+    FILL_TOOL      = KC_F,
+    TRANSFORM_TOOL = LCTL(KC_T),
+    SELECT_TOOL    = LCTL(KC_R),
+    PICK_TOOL      = KC_P,
+    ERASE          = KC_E,
+    SIZE_INC       = KC_LBRACKET,
+    SIZE_DEC       = KC_RBRACKET,
+//  ALPHA_INC      = KC_I,
+//  ALPHA_DEC      = KC_O,
+    VALUE_INC      = KC_K,
+    VALUE_DEC      = KC_L,
+    PEN_PRESSURE   = KC_W,
+    SELECT_ALL     = LCTL(KC_R),
+    INVERT         = LCTL(KC_I),   // [Default: Invert color, +Shift: Invert selection]
 
+    // Krita Layer Mappings
+    LAYER_SHOW     = KC_TILD,
+    LAYER_GO_UP    = KC_PGUP,
+    LAYER_GO_DO    = KC_PGDOWN,
+    LAYER_ADD      = KC_INSERT,
+    LAYER_DEL      = KC_DEL,
+    LAYER_DUP      = LCTL(KC_J),
+    LAYER_MERGE    = LCTL(KC_E),
+    LAYER_GROUP    = LCTL(KC_G),
+    MENU_RSV_1     = HYPR(KC_1),  // Reserved for user to assign as needed
+    MENU_RSV_2     = HYPR(KC_2),  // Reserved for user to assign as needed
+    MENU_RSV_3     = HYPR(KC_3),  // Reserved for user to assign as needed
+    MENU_RSV_4     = HYPR(KC_4),  // Reserved for user to assign as needed
+    MENU_RSV_5     = HYPR(KC_5),  // Reserved for user to assign as needed
+    MENU_RSV_6     = HYPR(KC_6),  // Reserved for user to assign as needed
+
+    // TODO: Make these mappings dynamic and loadable, for multiple programs?
+    CYCLE_APP_LAYOUT = _______,   // Reserved for potential implementation in future
 };
 //}}}
 
@@ -83,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         //*** Left Hand {{{
         KC_ESCAPE          , KC_F1          , KC_F2          , KC_F3          , KC_F4          , KC_F5          , KC_F6          ,
-        KC_TAB             , TO(DVO)        , TO(QWE)        , ______________ , ______________ , ______________ , ______________ ,
+        KC_TAB             , TO(QWE)        , TO(ART1)        , ______________ , ______________ , ______________ , ______________ ,
         LCTL_T(KC_ESCAPE)  , TO(UI)         , ______________ , ______________ , ______________ , ______________ ,
         ______________     , ______________ , ______________ , ______________ , ______________ , ______________ , ______________ ,
         ______________     , ______________ , ______________ , ______________ , TT(EXTRA)      ,
@@ -105,71 +143,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________ , ______________ ,
         ______________ ,
         MO(UI)         , KC_ENTER       , KC_BSPACE
-        //}}}
-
-    ),
-    //}}}
-
-    //** Dvorak Base {{{
-    [DVO] = LAYOUT_ergodox(
-
-        //*** Left Hand {{{
-        XXXXXXXXXXXXXX    , KC_1           , KC_2           , KC_3           , KC_4       , KC_5 , KC_MINUS       ,
-        KC_TAB            , KC_QUOTE       , KC_COMMA       , KC_DOT         , KC_P       , KC_Y , XXXXXXXXXXXXXX ,
-        LCTL_T(KC_ESCAPE) , KC_A           , KC_O           , KC_E           , KC_U       , KC_I ,
-        KC_LGUI           , KC_SCOLON      , KC_Q           , KC_J           , KC_K       , KC_X , TT(DVO_SYM) ,
-        TO(HUB)           , XXXXXXXXXXXXXX , XXXXXXXXXXXXXX , XXXXXXXXXXXXXX , TT(EXTRA)  ,
-
-        // Thumb cluster
-                   XXXXXXXXXXXXXX , XXXXXXXXXXXXXX ,
-                                    TT(EXTRA)      ,
-        KC_SPACE , KC_LSHIFT      , MO(DVO_SYM) ,
-        //}}}
-
-        //*** Right Hand {{{
-        XXXXXXXXXXXXXX , KC_6 , KC_7    , KC_8    , KC_9  , KC_0     , XXXXXXXXXXXXXX ,
-        TT(UI)         , KC_F , KC_G    , KC_C    , KC_R  , KC_L     , KC_SLASH       ,
-                         KC_D , KC_H    , KC_T    , KC_N  , KC_S     , KC_ENTER       ,
-        KC_X           , KC_B , KC_M    , KC_W    , KC_V  , KC_Z     , MO(DVO_SYM) ,
-                                KC_LEFT , KC_DOWN , KC_UP , KC_RIGHT , KC_NO          ,
-
-        // Thumb cluster
-        XXXXXXXXXXXXXX , XXXXXXXXXXXXXX ,
-        XXXXXXXXXXXXXX ,
-        MO(UI)         , KC_ENTER       , KC_BSPACE
-        //}}}
-
-    ),
-    //}}}
-
-    //** Dvorak Symbols  {{{
-    //  TODO: Redo this layer as we already have a EXTRA layer that does this, and this is poorly planned.
-    [DVO_SYM] = LAYOUT_ergodox(
-
-        //*** Left Hand {{{
-        ______________, KC_EXLM,        KC_QUES,        KC_MINUS,       KC_GRAVE,       KC_UNDS,        KC_PC_COPY,
-        ______________, KC_DQUO,        KC_COMMA,       KC_LCBR,        KC_RCBR,        KC_PERC,        ______________,
-        ______________, KC_HASH,        KC_DLR,         KC_LPRN,        KC_RPRN,        KC_QUES,
-        ______________, KC_CIRC,        KC_PIPE,        KC_LBRACKET,    KC_RBRACKET,    KC_AT,          ______________,
-        TO(HUB),        ______________, ______________, KC_LABK,        ______________,
-
-        // Thumb cluster
-                        ______________, ______________,
-                                        ______________,
-        KC_SPACE,       KC_LSHIFT,      ______________,
-        //}}}
-
-        //*** Right Hand {{{
-        ______________, KC_TILD,        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       ______________,
-        ______________, KC_SLASH,       KC_7,           KC_8,           KC_9,           ______________, ______________,
-                        KC_EQUAL,       KC_4,           KC_5,           KC_6,           ______________, ______________,
-        ______________, KC_AMPR,        KC_1,           KC_2,           KC_3,           ______________, ______________,
-                                        KC_0,           KC_DOT,         KC_BSLASH,      ______________, KC_NO,
-
-        // Thumb cluster
-        ______________, ______________,
-        ______________,
-        MO(UI),         KC_ENTER,       KC_BSPACE
         //}}}
 
     ),
@@ -234,6 +207,70 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________, ______________,
         ______________,
         KC_LSHIFT,      KC_ENTER,       KC_BSPACE
+        //}}}
+
+    ),
+    //}}}
+
+    //** Digital Art Base 1 {{{
+    [ART1] = LAYOUT_ergodox(
+
+        //*** Left Hand {{{
+        KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,
+        KC_TAB,         INVERT,         SELECT_ALL,     ERASE,          PICK_TOOL,      TRANSFORM_TOOL, VALUE_INC,
+        KC_LCTL,        FILL_TOOL,      SELECT_TOOL,    MOVE_TOOL,      BRUSH_TOOL,     SIZE_INC,
+        KC_LGUI,        KC_PC_CUT,      KC_PC_COPY,     KC_PC_PASTE,    KC_PC_UNDO,     SIZE_DEC,       VALUE_DEC,
+        TO(HUB),        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,
+
+
+        // Thumb cluster
+                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+                                        CYCLE_APP_LAYOUT,
+        KC_SPACE,       KC_LSHIFT,      MO(ART2),
+        //}}}
+
+        //*** Right Hand {{{
+        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+                                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+
+        // Thumb cluster
+        XXXXXXXXXXXXXX , XXXXXXXXXXXXXX ,
+        XXXXXXXXXXXXXX ,
+        MO(UI)         , KC_ENTER       , KC_BSPACE
+        //}}}
+
+    ),
+    //}}}
+
+    //** Digital Art Base 2 {{{
+    [ART2] = LAYOUT_ergodox(
+        //*** Left Hand {{{
+        ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,
+        ______________, MENU_RSV_1,     MENU_RSV_2,     LAYER_GO_UP,    LAYER_ADD,      LAYER_DEL,      ______________,
+        ______________, MENU_RSV_3,     MENU_RSV_4,     LAYER_GO_DO,    LAYER_SHOW,     LAYER_DUP,
+        ______________, MENU_RSV_5,     MENU_RSV_6,     LAYER_MERGE,    ___CRITICAL___, LAYER_GROUP,    ______________,
+        TO(HUB),        ______________, ______________, ______________, ______________,
+
+        // Thumb cluster
+                        ______________, ______________,
+                                        ______________,
+        ______________, ______________, ______________,
+        //}}}
+
+        //*** Right Hand {{{
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+                        ______________, ______________, ______________, ______________, ______________, ______________,
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+                                        ______________, ______________, ______________, ______________, ______________,
+
+        // Thumb cluster
+        ______________, ______________,
+        ______________,
+        ______________, ______________, ______________,
         //}}}
 
     ),
