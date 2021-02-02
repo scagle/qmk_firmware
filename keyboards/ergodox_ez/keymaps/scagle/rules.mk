@@ -2,8 +2,8 @@
 # See rules at https://docs.qmk.fm/#/config_options?id=the-rulesmk-file
 
 LTO_ENABLE = yes        # Link Time Optimization by GCC
-RGBLIGHT_ENABLE = yes   # RGB Lights, and functionality (TODO allow disabling of this, save some bytes)
-//TAP_DANCE_ENABLE = yes  # Multiple presses = Multiple variations of key presses
+#RGBLIGHT_ENABLE = yes   # RGB Lights, and functionality
+#TAP_DANCE_ENABLE = yes  # Multiple presses = Multiple variations of key presses
 
 COMMAND_ENABLE = no     # Allow "Magic" TMK commands
 #WEBUSB_ENABLE = yes    # Used with Ergodox EZ website configuration viewer
