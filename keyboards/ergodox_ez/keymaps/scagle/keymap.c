@@ -50,7 +50,8 @@ enum layers {
     UI,
 };
 
-enum mapped_keycodes {
+enum mapped_key_codes {
+
     // Layer Mappings
     ______________ = _______,  // Transparent Key (Uses key from lower layer)
     XXXXXXXXXXXXXX = XXXXXXX,  // NoOp Block Key (Does nothing + Blocks keys on layers beneath)
@@ -95,21 +96,26 @@ enum mapped_keycodes {
 
 #if defined(RGBLIGHT_ENABLE)
 
-    MKC_RGB_TOG = RGB_TOG
+    MKC_RGB_TOG = RGB_TOG,
 #else
-    MKC_RGB_TOG = _______
+    MKC_RGB_TOG = _______,
 
 #endif // defined(RGBLIGHT_ENABLE)
 
 };
 
-enum custom_keycodes {
-    CKC_VERSION = EZ_SAFE_RANGE,  // Type out version/compilation info
-
-    // "Tap Dance" keycodes
-    TD_C_P_X,                 // Copy, Paste, Cut
-    TD_BR_ER,                 // Brush tool, Erase tool/modifier
+enum custom_key_codes {
+    CKC_VERSION = EZ_SAFE_RANGE,                  // Type out version/compilation info
 };
+
+#if defined(TAP_DANCE_ENABLE)
+
+enum tap_dance_keys {
+    TD_C_P_X,  // Copy, Paste, Cut
+    TD_BR_ER,  // Brush tool, Erase tool/modifier
+};
+
+#endif // defined(TAP_DANCE_ENABLE)
 
 //}}}
 
@@ -123,7 +129,7 @@ void copy_paste_cut(qk_tap_dance_state_t *state, void *user_data);
 // "Tap Dance" Action Mappings
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_BR_ER] = ACTION_TAP_DANCE_DOUBLE(BRUSH_TOOL, ERASE_TOOL),
-    //[TD_C_P_X] = ACTION_TAP_DANCE_FN(copy_paste_cut),
+    [TD_C_P_X] = ACTION_TAP_DANCE_FN(copy_paste_cut),
 };
 
 #endif // defined(TAP_DANCE_ENABLE)

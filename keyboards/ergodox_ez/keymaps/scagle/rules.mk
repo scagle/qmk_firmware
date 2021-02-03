@@ -3,7 +3,7 @@
 
 LTO_ENABLE = yes        # Link Time Optimization by GCC
 #RGBLIGHT_ENABLE = yes   # RGB Lights, and functionality
-#TAP_DANCE_ENABLE = yes  # Multiple presses = Multiple variations of key presses
+TAP_DANCE_ENABLE = yes  # Multiple presses = Multiple variations of key presses
 
 COMMAND_ENABLE = no     # Allow "Magic" TMK commands
 #WEBUSB_ENABLE = yes    # Used with Ergodox EZ website configuration viewer
