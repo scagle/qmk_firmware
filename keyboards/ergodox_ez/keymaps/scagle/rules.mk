@@ -5,13 +5,13 @@
 
 # Features {{{
 
-LTO_ENABLE = yes        # Link Time Optimization by GCC
+RGBLIGHT_ENABLE = yes   # RGB Lights, and functionality
+TAP_DANCE_ENABLE = yes # Multiple presses = Multiple variations of key presses
 
+
+LTO_ENABLE = yes       # Link Time Optimization by GCC
 COMMAND_ENABLE = no    # Allow "Magic" TMK commands
-CONSOLE_ENABLE = yes   # Allow dumping to console (with "sudo hdi_listen")
-
-RGBLIGHT_ENABLE = no    # RGB Lights, and functionality
-TAP_DANCE_ENABLE = no  # Multiple presses = Multiple variations of key presses
+CONSOLE_ENABLE = no   # Allow dumping to console (with "sudo hdi_listen")
 
 # }}} Features
 
@@ -39,15 +39,15 @@ OPT_DEFS += -DKEYMAP_DATE=\""$(KEYMAP_DATE)"\"
 ENABLED_FEATURES=
 
 ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
-	ENABLED_FEATURES += rgb_light
+	ENABLED_FEATURES += rgb_light,
 	SRC += features/rgb_light.c
 endif
 
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
-	ENABLED_FEATURES += tap_dance
+	ENABLED_FEATURES += tap_dance,
 	SRC += features/tap_dance.c
 endif
 
-OPT_DEFS += -DENABLED_FEATURES=\"$(strip $(ENABLED_FEATURES))\"
+OPT_DEFS += -DENABLED_FEATURES=\""$(strip $(ENABLED_FEATURES))"\"
 
 # }}} Sources

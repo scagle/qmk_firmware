@@ -382,7 +382,7 @@ void keyboard_post_init_user(void)
     layer_state_set_user(layer_state);
 
     // Debug variables to set
-    debug_enable=true;
+    debug_enable=false;
     //debug_matrix=true;
     //debug_keyboard=true;
     //debug_mouse=true;
