@@ -8,35 +8,16 @@
 //         zn     no folds (disable them)
 //         zM     fold everything (enable them)
 
+//* Includes {{{
+
 #include QMK_KEYBOARD_H
 #include "version.h"
+#include "global_definitions.h"
+#include "features/feature_support.h"
 
-//* Defines {{{
+// }}}
 
-#define KC_MAC_UNDO  LGUI(KC_Z)
-#define KC_MAC_CUT   LGUI(KC_X)
-#define KC_MAC_COPY  LGUI(KC_C)
-#define KC_MAC_PASTE LGUI(KC_V)
-#define KC_MAC_SAVE  LGUI(KC_S)
-#define KC_PC_UNDO   LCTL(KC_Z)
-#define KC_PC_CUT    LCTL(KC_X)
-#define KC_PC_COPY   LCTL(KC_C)
-#define KC_PC_PASTE  LCTL(KC_V)
-#define KC_PC_SAVE   LCTL(KC_S)
-#define ES_LESS_MAC  KC_GRAVE
-#define ES_GRTR_MAC  LSFT(KC_GRAVE)
-#define ES_BSLS_MAC  ALGR(KC_6)
-#define NO_PIPE_ALT  KC_GRAVE
-#define NO_BSLS_ALT  KC_EQUAL
-#define NUM_LEDS     3
-
-#if !defined(TAP_DANCE_ENABLE)
-#define TD(x) _______  // NoOp the keys associated with Tap Dance
-#endif
-
-//}}}
-
-//* Enumerations {{{
+//* Keyboard Enums {{{
 
 enum layers {
     // Must start at zero:
@@ -50,109 +31,9 @@ enum layers {
     UI,
 };
 
-enum mapped_key_codes {
-
-    // Layer Mappings
-    ______________ = _______,  // Transparent Key (Uses key from lower layer)
-    XXXXXXXXXXXXXX = XXXXXXX,  // NoOp Block Key (Does nothing + Blocks keys on layers beneath)
-    ___CRITICAL___ = _______,  // Transparent Key (Key beneath this one is critically important)
-
-    // Art Painting Mappings
-    BRUSH_TOOL     = KC_B,
-    MOVE_TOOL      = KC_T,
-    FILL_TOOL      = KC_F,
-    TRANSFORM_TOOL = LCTL(KC_T),
-    SELECT_TOOL    = LCTL(KC_R),
-    PICK_TOOL      = KC_P,
-    LINE_TOOL      = KC_V,
-    ERASE_TOOL     = KC_E,
-    SIZE_INC       = KC_RBRACKET,  // TODO: Do a LSFT() variant of these
-    SIZE_DEC       = KC_LBRACKET,
-//  ALPHA_INC      = KC_O,         // TODO: Do a LSFT() variant of these
-//  ALPHA_DEC      = KC_I,
-    DARKEN_BRUSH   = KC_K,         // TODO: Do a LSFT() variant of these
-    LIGHTEN_BRUSH  = KC_L,
-    PEN_PRESSURE   = KC_W,
-    SELECT_ALL     = LCTL(KC_A),
-    INVERT         = LCTL(KC_I),   // [Default: Invert color, +Shift: Invert selection]
-
-    // Art Layer Mappings
-    LAYER_SHOW     = KC_TILD,
-    LAYER_GO_UP    = KC_PGUP,
-    LAYER_GO_DO    = KC_PGDOWN,
-    LAYER_ADD      = KC_INSERT,
-    LAYER_CLEAR    = KC_DEL,
-    LAYER_DUP      = LCTL(KC_J),
-    LAYER_MERGE    = LCTL(KC_E),
-    LAYER_GROUP    = LCTL(KC_G),
-    MENU_RSV_1     = HYPR(KC_1),  // Reserved for user to assign as needed
-    MENU_RSV_2     = HYPR(KC_2),  // Reserved for user to assign as needed
-    MENU_RSV_3     = HYPR(KC_3),  // Reserved for user to assign as needed
-    MENU_RSV_4     = HYPR(KC_4),  // Reserved for user to assign as needed
-
-    // TODO: Make these mappings dynamic and loadable, for multiple programs?
-    // TODO: Make this a macro instead of static key
-    CYCLE_APP_LAYOUT = _______,   // Reserved for potential implementation in future
-
-#if defined(RGBLIGHT_ENABLE)
-
-    MKC_RGB_TOG = RGB_TOG,
-#else
-    MKC_RGB_TOG = _______,
-
-#endif // defined(RGBLIGHT_ENABLE)
-
-};
-
-enum custom_key_codes {
-    CKC_VERSION = EZ_SAFE_RANGE,                  // Type out version/compilation info
-};
-
-#if defined(TAP_DANCE_ENABLE)
-
-enum tap_dance_keys {
-    TD_C_P_X,  // Copy, Paste, Cut
-    TD_BR_ER,  // Brush tool, Erase tool/modifier
-};
-
-#endif // defined(TAP_DANCE_ENABLE)
-
 //}}}
 
-//* Definitions {{{
-
-#if defined(TAP_DANCE_ENABLE)
-
-// "Tap Dance" Function Definitions
-void copy_paste_cut(qk_tap_dance_state_t *state, void *user_data);
-
-// "Tap Dance" Action Mappings
-qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_BR_ER] = ACTION_TAP_DANCE_DOUBLE(BRUSH_TOOL, ERASE_TOOL),
-    [TD_C_P_X] = ACTION_TAP_DANCE_FN(copy_paste_cut),
-};
-
-#endif // defined(TAP_DANCE_ENABLE)
-
-#if defined(RGBLIGHT_ENABLE)
-
-// RGB Layer HSV Colors
-const uint8_t layer_colors[][3] = {
-//   Hue , Sat , Val
-    {0   , 0   , 155},
-    {25  , 255 , 155},
-    {50  , 255 , 155},
-    {100 , 255 , 155},
-    {150 , 255 , 155},
-    {200 , 255 , 155},
-    {225 , 255 , 155},
-    {255 , 255 , 155},
-};
-
-rgblight_config_t rgblight_config;
-bool disable_layer_color = 0;
-
-#endif // defined(RGBLIGHT_ENABLE)
+//* Keyboard Definitions {{{
 
 uint8_t last_layer = 0;
 
@@ -418,7 +299,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
                         ______________, KC_MS_BTN1,     KC_MS_BTN2,     KC_MS_BTN3,     ______________, ______________,
         ______________, ______________, KC_MEDIA_PREV_TRACK,KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,KC_MEDIA_NEXT_TRACK, ______________,
-                                        MKC_RGB_TOG,    ______________, ______________, ______________, RESET,
+                                        RGB_TOG,        ______________, ______________, ______________, RESET,
 
         // Thumb cluster
         ______________, ______________,
@@ -437,27 +318,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 //* Keyboard Functions {{{
 
-//** "Tap Dance" Functions {{{
-
-#if defined(TAP_DANCE_ENABLE)
-
-// Tap 1: Copy
-// Tap 2: Paste
-// Tap 3: Cut
-void copy_paste_cut(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 1) {
-        register_code16(KC_MAC_CUT);
-    } else if (state->count == 2) {
-        register_code16(KC_MAC_COPY);
-    } else {
-        register_code16(KC_MAC_PASTE);
-    }
-}
-
-#endif // defined(TAP_DANCE_ENABLE)
-
-//}}}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     switch (keycode)
@@ -465,12 +325,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         case TOGGLE_LAYER_COLOR:
 
             #if defined(RGBLIGHT_ENABLE)
-
-            if (record->event.pressed)
-            {
-                disable_layer_color ^= 1;
-            }
-
+            toggle_rgb(record);
             #endif // defined(RGBLIGHT_ENABLE)
 
             return false;
@@ -479,12 +334,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         case CKC_VERSION: // Print out the version/branch/date of compilation upon keypress
             if (record->event.pressed)
             {
-                SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " KEYMAP_BRANCH " (" KEYMAP_DATE ")");
+                SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " KEYMAP_BRANCH " " KEYMAP_DATE " Features: [" ENABLED_FEATURES "]");
             }
             return false;
-
-        default:
-            return true;
     }
     return true;
 }
@@ -518,19 +370,7 @@ uint32_t layer_state_set_user(uint32_t state)
     }
 
     #if defined(RGBLIGHT_ENABLE)
-
-    // Write to Glow LEDs (TODO: Figure out why this needs to be written every time)
-    if (rgblight_config.enable == true) {
-        if(!disable_layer_color) {
-            rgblight_enable_noeeprom();
-            rgblight_mode_noeeprom(1);
-            rgblight_sethsv_noeeprom(layer_colors[layer][0], layer_colors[layer][1], layer_colors[layer][2]);
-        }
-        else {
-            rgblight_disable_noeeprom();
-        }
-    }
-
+    update_rgb(layer);
     #endif // defined(RGBLIGHT_ENABLE)
 
     return state;
@@ -540,7 +380,8 @@ uint32_t layer_state_set_user(uint32_t state)
 void keyboard_post_init_user(void)
 {
     layer_state_set_user(layer_state);
-    // Customise these values to desired behaviour
+
+    // Debug variables to set
     debug_enable=true;
     //debug_matrix=true;
     //debug_keyboard=true;
