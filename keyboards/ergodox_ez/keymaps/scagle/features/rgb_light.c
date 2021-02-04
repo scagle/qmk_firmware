@@ -15,7 +15,7 @@ uint8_t rgb_enabled = 1;
 rgblight_config_t rgblight_config;
 
 
-inline void toggle_rgb(keyrecord_t *record)
+void toggle_rgb(keyrecord_t *record)
 {
     if (record->event.pressed)
     {
@@ -23,7 +23,7 @@ inline void toggle_rgb(keyrecord_t *record)
     }
 }
 
-inline void update_rgb(uint8_t layer) {
+void update_rgb(uint8_t layer) {
     // Write to Glow LEDs (TODO: Figure out why this needs to be written every time)
     if (rgblight_config.enable == true) {
         if (rgb_enabled) {
@@ -37,3 +37,17 @@ inline void update_rgb(uint8_t layer) {
     }
 }
 
+#if defined(SCAGLE_RGBLIGHT_STARTUP_ANIMATION)
+
+//TODO: Implement if/when necessary
+
+//static uint8_t counter = 0;
+//void begin_startup_rgb_animation() {
+//
+//}
+//
+//static void update_startup_rgb_animation() {
+//
+//}
+
+#endif // defined(SCAGLE_RGBLIGHT_STARTUP_ANIMATION)
