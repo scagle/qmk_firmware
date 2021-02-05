@@ -7,15 +7,15 @@
 # Features {{{
 
 # My Custom Features
-SCAGLE_LEDS_ENABLE = yes      # [???] Onboard LEDs
+SCAGLE_LEDS_ENABLE = yes      # [+]   Onboard LEDs
 
 # QMK/External Features
-RGBLIGHT_ENABLE = yes         # [+~16%] RGB Lights, and functionality
-TAP_DANCE_ENABLE = yes        # [+~2%]  Multiple presses = Multiple variations of key presses
+RGBLIGHT_ENABLE = yes         # [+++] RGB Lights, and functionality
+TAP_DANCE_ENABLE = yes        # [+]   Multiple presses = Multiple variations of key presses
 
-LTO_ENABLE = yes              # [-~7%] Link Time Optimization by GCC
-COMMAND_ENABLE = no           # [+~4%] Allow "Magic" TMK commands
-CONSOLE_ENABLE = no           # [+~7%] Allow dumping to console (with "sudo hdi_listen")
+LTO_ENABLE = yes              # [--]  Link Time Optimization by GCC
+COMMAND_ENABLE = no           # [++]  Allow "Magic" TMK commands
+CONSOLE_ENABLE = no           # [+++] Allow dumping to console (with "sudo hdi_listen")
 
 # }}} Features
 

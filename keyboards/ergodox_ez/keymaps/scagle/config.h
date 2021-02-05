@@ -13,4 +13,4 @@
     #define RGBLIGHT_ANIMATIONS  // supposedly consumes a lot of bytes
     #define RGBLIGHT_SLEEP
 //  #define SCAGLE_RGBLIGHT_STARTUP_ANIMATION
-#endif
+#endif // defined(RGBLIGHT_ENABLE)

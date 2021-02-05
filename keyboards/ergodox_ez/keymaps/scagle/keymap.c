@@ -340,7 +340,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
 uint32_t layer_state_set_user(uint32_t state)
 {
-    uint8_t layer = biton32(state);
+
+    __attribute__((unused))  // gcc unused-variable suppression
+    const uint8_t layer = biton32(state);
 
     #if defined(SCAGLE_LEDS_ENABLE)
     update_leds(layer);
@@ -351,7 +353,6 @@ uint32_t layer_state_set_user(uint32_t state)
     #endif // defined(RGBLIGHT_ENABLE)
 
     return state;
-
 };
 
 void keyboard_post_init_user(void)
