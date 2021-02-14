@@ -1,27 +1,24 @@
 // vim: foldmethod=marker
 
-#include "tap_dance.h"
+#include "features/tap_dance.h"
+#include "features/key_swap.h"
+#include "features/rgb_light.h"
+#include "globals.h"
 
-#define REGISTER true
-#define UNREGISTER false
 
-
-// Function Prototypes {{{
-// TAP...TAP...TAP...FINISH...RESET
-
-void copy_paste_cut_finish(qk_tap_dance_state_t *state, void *user_data);
-void copy_paste_cut_reset(qk_tap_dance_state_t *state, void *user_data);
-static void copy_paste_cut(qk_tap_dance_state_t *state, void *user_data, const bool register_key);
-
-// }}} Function Prototypes
-
+static void copy_paste_cut_finish(qk_tap_dance_state_t *state, void *user_data);
+#if defined(SCAGLE_KEY_SWAP)
+static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data);
+#endif
 
 // Action Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_BR_ER] = ACTION_TAP_DANCE_DOUBLE(BRUSH_TOOL, ERASE_TOOL),
-    [TD_C_P_X] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copy_paste_cut_finish, copy_paste_cut_reset),
+    [TD_C_P_X] = ACTION_TAP_DANCE_FN(copy_paste_cut_finish),
+#if defined(SCAGLE_KEY_SWAP)
+    [TD_SWAP_OS] = ACTION_TAP_DANCE_FN(swap_os_finish),
+#endif  // defined(SCAGLE_KEY_SWAP)
 };
-
 
 // Function Implementations {{{
 
@@ -29,31 +26,55 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 //   - 1 Tap  = Copy
 //   - 2 Taps = Paste
 //   - 3 Taps = Cut
-
-void copy_paste_cut_finish(qk_tap_dance_state_t *state, void *user_data) 
+static void copy_paste_cut_finish(qk_tap_dance_state_t *state, void *user_data)
 {
-    copy_paste_cut(state, user_data, REGISTER);
-}
-
-void copy_paste_cut_reset(qk_tap_dance_state_t *state, void *user_data) 
-{
-    copy_paste_cut(state, user_data, UNREGISTER);
-}
-
-static void copy_paste_cut(qk_tap_dance_state_t *state, void *user_data, const bool register_key) 
-{
-    if (state->count == 1) {
-        if (register_key == REGISTER)      register_code16(LCTL(KC_C));
-        if (register_key == UNREGISTER)  unregister_code16(LCTL(KC_C));
-    } else if (state->count == 2) {
-        if (register_key == REGISTER)      register_code16(LCTL(KC_P));
-        if (register_key == UNREGISTER)  unregister_code16(LCTL(KC_P));
-    } else {
-        if (register_key == REGISTER)      register_code16(LCTL(KC_X));
-        if (register_key == UNREGISTER)  unregister_code16(LCTL(KC_X));
+    switch (state->count)
+    {
+        case 1:  tap_code16(KS_COPY); break;
+        case 2:  tap_code16(KS_PASTE); break;
+        default: tap_code16(KS_CUT);
     }
 }
 
 // }}} Copy Paste Cut
+
+// Operating System Modifier Swap: {{{
+//   - 1 Tap  = Red  Flashes = use Linux (and Windows) modifiers for certain operations
+//   - 2 Taps = Blue Flashes = use MacOS modifiers for certain operations
+
+#if defined(SCAGLE_KEY_SWAP)
+
+static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data)
+{
+    switch (state->count)
+    {
+        case 1:
+        {
+            KS_COPY  = KC_PC_COPY;
+            KS_PASTE = KC_PC_PASTE;
+            KS_CUT   = KC_PC_CUT;
+
+            #if defined(RGBLIGHT_ENABLE) && defined(SCAGLE_RGBLIGHT_ANIMATIONS)
+            flash_rgb(HSV_RED);
+            #endif  // defined(RGBLIGHT_ENABLE) && defined(SCAGLE_RGBLIGHT_ANIMATIONS)
+
+            break;
+        }
+        default:
+        {
+            KS_COPY  = KC_MAC_COPY;
+            KS_PASTE = KC_MAC_PASTE;
+            KS_CUT   = KC_MAC_CUT;
+
+            #if defined(RGBLIGHT_ENABLE) && defined(SCAGLE_RGBLIGHT_ANIMATIONS)
+            flash_rgb(HSV_BLUE);
+            #endif  // defined(RGBLIGHT_ENABLE) && defined(SCAGLE_RGBLIGHT_ANIMATIONS)
+        }
+    }
+}
+
+#endif  // defined(SCAGLE_KEY_SWAP)
+
+// }}} OS Modifier Swap
 
 // }}} Function Implementations

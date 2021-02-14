@@ -1,10 +1,10 @@
-#include "leds.h"
+#include "features/leds.h"
 #include QMK_KEYBOARD_H
-#include "global_definitions.h"
+#include "globals.h"
 
 uint8_t last_layer = 0;
 
-void update_leds(uint8_t layer) 
+void update_leds(uint8_t layer)
 {
     // Only update LEDs on layer transitions
     if (layer != last_layer) {

@@ -2,11 +2,14 @@
 #define _SCAGLE_TAP_DANCE_H_
 #pragma once
 
-#include "../global_definitions.h"
+#if defined(TAP_DANCE_ENABLE)
 
 enum tap_dance_keys {
-    TD_C_P_X,  // Copy, Paste, Cut
     TD_BR_ER,  // Brush, Erase
+    TD_C_P_X,  // Copy, Paste, Cut
+    TD_SWAP_OS,  // Swap Linux, MacOS keys (IE: command vs ctrl)
 };
 
-#endif // #ifndef _SCAGLE_TAP_DANCE_H_
+#endif  // defined(TAP_DANCE_ENABLE)
+
+#endif  // #ifndef _SCAGLE_TAP_DANCE_H_

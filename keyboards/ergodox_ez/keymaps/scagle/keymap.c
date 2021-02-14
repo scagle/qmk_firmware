@@ -10,29 +10,24 @@
 
 // Includes {{{
 
-#include QMK_KEYBOARD_H
-#include "version.h"
-#include "global_definitions.h"
-#include "features/feature_support.h"
+#include QMK_KEYBOARD_H   // [KC_*, TO(), etc] (defined externally)
+#include "version.h"      // [LAYOUT_ergodox]  (defined externally)
+
+#include "globals.h"
+
+#include "features/leds.h"
+#include "features/tap_dance.h"
+#include "features/rgb_light.h"
+#include "features/key_swap.h"
+#include "features/combo.h"
 
 // }}}
 
-// Keyboard Enums {{{
+// Static Variables {{{
 
-// Alias enums for layers
-// Must start at zero:
-// https://docs.qmk.fm/#/configurator_default_keymaps?id=layer-references
-enum layers {
-    HUB = 0, // Central-Hub/BIOS Layer to redirect to appropriate layers
-    QWE,     // QWERTY Layer
-    SYM,     // Symbols Layer
-    ART1,    // Digital Art Layer 1
-    ART2,    // Digital Art Layer 2
-    EXTRA,   // Misc Layer (IE: Function Keys, Numpad)
-    UI,      // User Interface Layer (IE: Mouse functions, RGB, Media, EEPROM Flash)
-};
+static uint8_t last_layer __attribute__((unused)) = HUB;
 
-//}}}
+// }}}
 
 // Keyboard Mappings {{{
 // For all keycodes go here: ../../../../docs/keycodes.md
@@ -47,8 +42,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,
         KC_TAB,         TO(QWE),        TO(ART1),       ______________, ______________, ______________, ______________,
-        LCTL_T(KC_ESCAPE), TO(UI),      ______________, ______________, ______________, ______________,
-        ______________, ______________, ______________, ______________, ______________, ______________, CKC_VERSION,
+        KC_LCTL,         TO(UI),         ______________, ______________, ______________, ______________,
+        ______________, ______________, ______________, ______________, ______________, TD(TD_SWAP_OS), CKC_SHOW_VERSION,
         ______________, ______________, ______________, ______________, TT(EXTRA),
 
         // Thumb cluster
@@ -90,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TO(HUB),        KC_LGUI,        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, TT(EXTRA),
 
         // Thumb cluster
-                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+                        TG(ART1),       XXXXXXXXXXXXXX,
                                         KC_LCMD,
         KC_SPACE,       KC_LSHIFT,      MO(SYM),
 
@@ -159,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         // Left Hand {{{
 
-        KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,
+        KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           XXXXXXXXXXXXXX,
         KC_TAB,         SELECT_ALL,     LINE_TOOL,      ______________, PICK_TOOL,      TRANSFORM_TOOL, DARKEN_BRUSH,
         KC_LCTL,        SELECT_TOOL,    FILL_TOOL,      MOVE_TOOL,      TD(TD_BR_ER),   SIZE_INC,
         KC_LALT,        ______________, ______________, TD(TD_C_P_X),   KC_PC_UNDO,     SIZE_DEC,       LIGHTEN_BRUSH,
@@ -167,7 +162,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
         // Thumb cluster
-                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+                        ______________, ______________,
                                         CYCLE_APP_LAYOUT,
         KC_SPACE,       KC_LSHIFT,      MO(ART2),
 
@@ -175,16 +170,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         // Right Hand {{{
 
-        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
-        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
-                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
-        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
-                                        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+                        ______________, ______________, ______________, ______________, ______________, ______________,
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+                                        ______________, ______________, ______________, ______________, ______________,
 
         // Thumb cluster
-        XXXXXXXXXXXXXX , XXXXXXXXXXXXXX ,
-        XXXXXXXXXXXXXX ,
-        MO(UI)         , KC_ENTER       , KC_BSPACE
+        ______________, ______________,
+        ______________,
+        ______________, ______________, ______________
 
         //}}}
 
@@ -202,7 +197,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSHIFT,      INVERT,         ______________, LAYER_GO_UP,    LAYER_ADD,      LAYER_CLEAR,    ______________,
         ______________, MENU_RSV_1,     MENU_RSV_2,     LAYER_GO_DO,    LAYER_SHOW,     LAYER_GROUP,
         ______________, MENU_RSV_3,     MENU_RSV_4,     LAYER_MERGE,    ___CRITICAL___, LAYER_DUP,      PEN_PRESSURE,
-        TO(HUB),        ______________, ______________, ______________, ______________,
+        TO(HUB),        ______________, KC_MS_WH_DOWN,  KC_MS_WH_UP,    ______________,
 
         // Thumb cluster
                         ______________, ______________,
@@ -231,7 +226,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     //}}}
 
-    // Extra (Function + Numpad Keys) {{{
+    // Extra (Function) {{{
 
     [EXTRA] = LAYOUT_ergodox(
 
@@ -253,10 +248,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Right Hand {{{
 
         KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         ______________,
-        ______________, ______________, KC_7,           KC_8,           KC_9,           ______________, ______________,
-                        ______________, KC_4,           KC_5,           KC_6,           ______________, ______________,
-        ______________, ______________, KC_1,           KC_2,           KC_3,           ______________, ______________,
-                                        KC_0,           ______________, ______________, ______________, ______________,
+        ______________, ______________, ______________, ______________, ______________, ______________, ______________,
+                        KC_INSERT,      KC_PGDOWN,      KC_PGUP,        ______________, ______________, ______________,
+        ______________, KC_DELETE,      ______________, ______________, ______________, ______________, ______________,
+                                        ______________, ______________, ______________, ______________, ______________,
 
         // Thumb cluster
         ______________, ______________,
@@ -284,17 +279,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Thumb cluster
                         ______________, ______________,
                                         ______________,
-        ______________, ______________, ______________, 
+        ______________, ______________, ______________,
 
         //}}}
 
         // Right Hand {{{
 
-        ______________,      ______________,      ______________,      ______________,      ______________,      ______________,      ______________,
-        ______________,      ______________,      ______________,      ______________,      ______________,      ______________,      ______________,
-                             KC_AUDIO_MUTE,       KC_MS_BTN1,          KC_MS_BTN2,          KC_MS_BTN3,          ______________,      ______________,
-        ______________,      KC_MEDIA_PLAY_PAUSE, KC_MEDIA_PREV_TRACK, KC_AUDIO_VOL_DOWN,   KC_AUDIO_VOL_UP,     KC_MEDIA_NEXT_TRACK, ______________,
-                             RGB_TOG,             RGB_MODE_REVERSE,    RGB_MODE_FORWARD,    ______________,      RESET,
+        XXXXXXXXXXXXXX,      KC_MS_WH_UP,         XXXXXXXXXXXXXX,      XXXXXXXXXXXXXX,      XXXXXXXXXXXXXX,      XXXXXXXXXXXXXX,      XXXXXXXXXXXXXX,
+        XXXXXXXXXXXXXX,      KC_MS_WH_DOWN,       KC_MS_LEFT,          KC_MS_DOWN,          KC_MS_UP,            KC_MS_RIGHT,         XXXXXXXXXXXXXX,
+                             KC_AUDIO_MUTE,       KC_MS_BTN1,          KC_MS_BTN2,          KC_MS_BTN3,          XXXXXXXXXXXXXX,      XXXXXXXXXXXXXX,
+        CMB_TOG,             KC_MEDIA_PLAY_PAUSE, KC_MEDIA_PREV_TRACK, KC_AUDIO_VOL_DOWN,   KC_AUDIO_VOL_UP,     KC_MEDIA_NEXT_TRACK, XXXXXXXXXXXXXX,
+                             RGB_TOG,             RGB_MODE_REVERSE,    RGB_MODE_FORWARD,    XXXXXXXXXXXXXX,      RESET,
 
         // Thumb cluster
         ______________, ______________,
@@ -317,16 +312,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     switch (keycode)
     {
-        case TOGGLE_LAYER_COLOR:
-
-            #if defined(RGBLIGHT_ENABLE)
-            toggle_rgb(record);
-            #endif // defined(RGBLIGHT_ENABLE)
-
-            return false;
-
-
-        case CKC_VERSION: // Print out the version/branch/date of compilation upon keypress
+        case CKC_SHOW_VERSION:  // Print out the version/branch/date of compilation upon keypress
 
             if (record->event.pressed)
             {
@@ -340,17 +326,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
 uint32_t layer_state_set_user(uint32_t state)
 {
+    const uint8_t layer       __attribute__((unused)) = biton32(state);
 
-    __attribute__((unused))  // gcc unused-variable suppression
-    const uint8_t layer = biton32(state);
+    if (layer != last_layer)
+    {
+        #if defined(SCAGLE_LEDS_ENABLE)
+        update_leds(layer);
+        #endif  // defined(SCAGLE_LEDS_ENABLE)
 
-    #if defined(SCAGLE_LEDS_ENABLE)
-    update_leds(layer);
-    #endif // defined(SCAGLE_LEDS_ENABLE)
+        #if defined(COMBO_ENABLE)  // If combo functionality is loaded
+        if (is_combo_enabled())    // If combo enabled during runtime
+        {
+            update_combo(layer);
+        }
+        #endif  // defined(SCAGLE_LEDS_ENABLE)
+    }
 
     #if defined(RGBLIGHT_ENABLE)
     update_rgb(layer);
-    #endif // defined(RGBLIGHT_ENABLE)
+    #endif  // defined(RGBLIGHT_ENABLE)
+
+    last_layer = layer;
 
     return state;
 };

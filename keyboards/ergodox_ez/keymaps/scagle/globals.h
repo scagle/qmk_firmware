@@ -1,33 +1,20 @@
-// vim: foldmethod=marker
+// All global constants used across multiple files
 
-#ifndef _SCAGLE_GLOBAL_DEFINITIONS_H_
-#define _SCAGLE_GLOBAL_DEFINITIONS_H_
+#ifndef _SCAGLE_GLOBALS_H_
+#define _SCAGLE_GLOBALS_H_
 #pragma once
 
 #include QMK_KEYBOARD_H
-
-// Defines {{{
 
 #define KC_MAC_UNDO  LGUI(KC_Z)
 #define KC_MAC_CUT   LGUI(KC_X)
 #define KC_MAC_COPY  LGUI(KC_C)
 #define KC_MAC_PASTE LGUI(KC_V)
-#define KC_MAC_SAVE  LGUI(KC_S)
 #define KC_PC_UNDO   LCTL(KC_Z)
 #define KC_PC_CUT    LCTL(KC_X)
 #define KC_PC_COPY   LCTL(KC_C)
 #define KC_PC_PASTE  LCTL(KC_V)
-#define KC_PC_SAVE   LCTL(KC_S)
-#define ES_LESS_MAC  KC_GRAVE
-#define ES_GRTR_MAC  LSFT(KC_GRAVE)
-#define ES_BSLS_MAC  ALGR(KC_6)
-#define NO_PIPE_ALT  KC_GRAVE
-#define NO_BSLS_ALT  KC_EQUAL
 #define NUM_LEDS     3
-
-//}}}
-
-// Enums {{{
 
 enum mapped_key_codes {
 
@@ -75,9 +62,20 @@ enum mapped_key_codes {
 };
 
 enum custom_key_codes {
-    CKC_VERSION = EZ_SAFE_RANGE,                  // Type out version/compilation info
+    CKC_SHOW_VERSION = EZ_SAFE_RANGE,                  // Type out version/compilation info
 };
 
-//}}}
+// Alias enums for layers
+// Must start at zero:
+// https://docs.qmk.fm/#/configurator_default_keymaps?id=layer-references
+enum layers {
+    HUB = 0, // Central-Hub/BIOS Layer to redirect to appropriate layers
+    QWE,     // QWERTY Layer
+    SYM,     // Symbols Layer
+    ART1,    // Digital Art Layer 1
+    ART2,    // Digital Art Layer 2
+    EXTRA,   // Misc Layer (IE: Function Keys, Numpad)
+    UI,      // User Interface Layer (IE: Mouse functions, RGB, Media, EEPROM Flash)
+};
 
-#endif // #ifndef _SCAGLE_GLOBAL_DEFINITIONS_H_
+#endif // #ifndef _SCAGLE_GLOBALS_H_

@@ -1,15 +1,24 @@
-# ErgoDox EZ Default Configuration
+# "scagle" Configuration
+This is my layout created to both practice sustainable firmware development, and to toy with my daily driver keyboard.
+I could probably get by with the [[https://configure.ergodox-ez.com/|Oryx/Ergodox online configurators]], but that's just not as fun!
 
-## Changelog
+# Layers
+    1. BIOS: to act as a BIOS navigator to my keyboard layouts, and as a literal navigator of my computer BIOS.
+    2. QWERTY: basic QWERTY layout
+    3. SYMBOLS: generic layer devoted to easy-to-reach symbols
+    4. ART1: base right-handed digital art layer, with custom keys tailored towards painting tools
+    5. ART2: right-handed digital art layer, with custom keys tailored towards layer/menu navigation
+    6. EXTRA: generic function keys + numpad
+    7. UI: user interface, with audio, mouse, rgb, and EEPROM flashing controls
 
-* Dec 2016:
-  * Added LED keys
-  * Refreshed layout graphic, comes from http://configure.ergodox-ez.com now.
-* Sep 22, 2016:
-  * Created a new key in layer 1 (bottom-corner key) that resets the EEPROM.
-* Feb 2, 2016 (V1.1): 
-  * Made the right-hand quote key double as Cmd/Win on hold. So you get ' when you tap it, " when you tap it with Shift, and Cmd or Win when you hold it. You can then use it as a modifier, or just press and hold it for a moment (and then let go) to send a single Cmd or Win keystroke (handy for opening the Start menu on Windows).
 
-This is what we ship with out of the factory. :) The image says it all:
+## Notable Features
+    * Central Hub / BIOS
+        * Allows me to have as many layouts as I darn well please, for any situation.
+        * Contains version information identifier, who's values are saved at compile time automatically.
 
-![Default](https://i.imgur.com/Be53jH7.png)
+    * Remappable Generic Digital Art Keys
+        * All keys on art layers are abstracted [to allow for dynamic context switching between painting applications* TODO]
+
+    * Flexible Features
+        * All features can be enabled or disabled
