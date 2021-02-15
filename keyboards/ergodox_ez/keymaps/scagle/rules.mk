@@ -11,7 +11,7 @@ SCAGLE_LEDS_ENABLE = yes      # [+]   Onboard LEDs
 SCAGLE_KEY_SWAP = yes         # [?]   Dynamically Swappable keys
 
 # QMK/External Features
-RGBLIGHT_ENABLE = yes         # [+++] RGB Lights, and functionality
+RGBLIGHT_ENABLE = yes         # [++]  RGB Lights. Animations defined in config.h
 TAP_DANCE_ENABLE = yes        # [+]   Multiple presses = Multiple variations of key presses
 COMBO_ENABLE = no             # [?]   TODO: Combination of keys = specific unique key press
 

@@ -13,7 +13,7 @@ static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data);
 
 // Action Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_BR_ER] = ACTION_TAP_DANCE_DOUBLE(BRUSH_TOOL, ERASE_TOOL),
+    [TD_BR_ER] = ACTION_TAP_DANCE_DOUBLE(BRUSH_TOOL_SH, ERASE_TOOL),
     [TD_C_P_X] = ACTION_TAP_DANCE_FN(copy_paste_cut_finish),
 #if defined(SCAGLE_KEY_SWAP)
     [TD_SWAP_OS] = ACTION_TAP_DANCE_FN(swap_os_finish),

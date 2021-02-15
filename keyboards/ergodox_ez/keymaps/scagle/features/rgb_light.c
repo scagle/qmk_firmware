@@ -6,14 +6,17 @@
 
 const uint8_t layer_colors[][3] = {
 //   Hue , Sat , Val
-    {0   , 0   , 155},
-    {25  , 255 , 155},
-    {50  , 255 , 155},
-    {100 , 255 , 155},
-    {150 , 255 , 155},
-    {200 , 255 , 155},
-    {225 , 255 , 155},
-    {255 , 255 , 155},
+    {0   , 0   , 255},  // Neutral for base layer
+
+    {0   , 200 , 255},  // 1 and 2 need highly distinguishable colors
+    {127 , 255 , 255},
+
+    {63  , 200 , 255},  // 3 and 4 need highly distinguishable colors
+    {190 , 255 , 255},
+
+    {225 , 200 , 255},  // W/E for extras that I almost never use
+
+    {225 , 255 , 255},  // SPIZZAZY for the fun UI layer
 };
 rgblight_config_t rgblight_config;
 

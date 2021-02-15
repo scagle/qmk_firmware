@@ -29,7 +29,7 @@ static uint8_t last_layer __attribute__((unused)) = HUB;
 
 // }}}
 
-// Keyboard Mappings {{{
+// Keyboard Layer Mappings {{{
 // For all keycodes go here: ../../../../docs/keycodes.md
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -42,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,
         KC_TAB,         TO(QWE),        TO(ART1),       ______________, ______________, ______________, ______________,
-        KC_LCTL,         TO(UI),         ______________, ______________, ______________, ______________,
+        KC_LCTL,        TO(UI),         ______________, ______________, ______________, ______________,
         ______________, ______________, ______________, ______________, ______________, TD(TD_SWAP_OS), CKC_SHOW_VERSION,
         ______________, ______________, ______________, ______________, TT(EXTRA),
 
@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Thumb cluster
         ______________, ______________,
         ______________,
-        MO(UI),         KC_ENTER,       KC_BSPACE
+        TT(UI),         KC_ENTER,       KC_BSPACE
 
         //}}}
 
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TO(HUB),        KC_LGUI,        XXXXXXXXXXXXXX, XXXXXXXXXXXXXX, TT(EXTRA),
 
         // Thumb cluster
-                        TG(ART1),       XXXXXXXXXXXXXX,
+                        TO(ART1),       XXXXXXXXXXXXXX,
                                         KC_LCMD,
         KC_SPACE,       KC_LSHIFT,      MO(SYM),
 
@@ -102,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Thumb cluster
         XXXXXXXXXXXXXX, XXXXXXXXXXXXXX,
         KC_RCMD,
-        MO(UI),         KC_ENTER,       KC_BSPACE
+        TT(UI),         KC_ENTER,       KC_BSPACE
 
         //}}}
 
@@ -155,14 +155,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Left Hand {{{
 
         KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           XXXXXXXXXXXXXX,
-        KC_TAB,         SELECT_ALL,     LINE_TOOL,      ______________, PICK_TOOL,      TRANSFORM_TOOL, DARKEN_BRUSH,
-        KC_LCTL,        SELECT_TOOL,    FILL_TOOL,      MOVE_TOOL,      TD(TD_BR_ER),   SIZE_INC,
-        KC_LALT,        ______________, ______________, TD(TD_C_P_X),   KC_PC_UNDO,     SIZE_DEC,       LIGHTEN_BRUSH,
+        KC_TAB,         SELECT_ALL_SH,  MOVE_TOOL,      TG(ART2),       PREV_BRUSH,     TRANSFORM_TOOL, XXXXXXXXXXXXXX,
+        KC_LCTL,        SELECT_TOOL_SH, FILL_TOOL,      LINE_TOOL,      BRUSH_TOOL_SH,  BRUSH_SIZE_SH,
+        KC_LALT,        INVERT_SH,      ______________, TD(TD_C_P_X),   KC_PC_UNDO,     BRUSH_VAL_SH,   BRUSH_ALPHA_SH,
         TO(HUB),        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,
 
 
         // Thumb cluster
-                        ______________, ______________,
+                        TO(QWE),        ______________,
                                         CYCLE_APP_LAYOUT,
         KC_SPACE,       KC_LSHIFT,      MO(ART2),
 
@@ -179,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Thumb cluster
         ______________, ______________,
         ______________,
-        ______________, ______________, ______________
+        TT(UI),         ______________, ______________
 
         //}}}
 
@@ -194,15 +194,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Left Hand {{{
 
         ______________, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,
-        KC_LSHIFT,      INVERT,         ______________, LAYER_GO_UP,    LAYER_ADD,      LAYER_CLEAR,    ______________,
-        ______________, MENU_RSV_1,     MENU_RSV_2,     LAYER_GO_DO,    LAYER_SHOW,     LAYER_GROUP,
-        ______________, MENU_RSV_3,     MENU_RSV_4,     LAYER_MERGE,    ___CRITICAL___, LAYER_DUP,      PEN_PRESSURE,
+        ______________, MENU_RSV_1,     MENU_RSV_2,     ___CRITICAL___, LAYER_ADD,      LAYER_CLEAR_SH, ______________,
+        ______________, MENU_RSV_3,     MENU_RSV_4,     LAYER_UP_C_SH,  LAYER_SHOW,     LAYER_GROUP,
+        ______________, MENU_RSV_5,     MENU_RSV_6,     LAYER_DO_C_SH,  ___CRITICAL___, LAYER_DUP,      PEN_ANALOG_TG,
         TO(HUB),        ______________, KC_MS_WH_DOWN,  KC_MS_WH_UP,    ______________,
 
         // Thumb cluster
                         ______________, ______________,
                                         ______________,
-        ______________, ______________, ______________,
+        ______________, ______________, ___CRITICAL___,
 
         //}}}
 
@@ -236,7 +236,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
         ______________, ______________, ______________, ______________, ______________, ______________,
         ______________, ______________, ______________, ______________, ______________, ______________, ______________,
-        ______________, ______________, ______________, ______________, ______________,
+        TO(HUB),        ______________, ______________, ______________, ______________,
 
         // Thumb cluster
                         ______________, ______________,
@@ -294,7 +294,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Thumb cluster
         ______________, ______________,
         ______________,
-        ______________, ______________, ______________
+        ___CRITICAL___, ______________, ______________
 
         //}}}
 
