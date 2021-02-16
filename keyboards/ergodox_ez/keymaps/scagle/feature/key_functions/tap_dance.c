@@ -1,13 +1,13 @@
 // vim: foldmethod=marker
 
-#include "features/tap_dance.h"
-#include "features/key_swap.h"
-#include "features/rgb_light.h"
-#include "globals.h"
+#include "feature/key_functions/tap_dance.h"
+#include "feature/key_functions/key_swap.h"
+#include "feature/ui_functions/rgb_light.h"
+#include "include/globals.h"
 
 
 static void copy_paste_cut_finish(qk_tap_dance_state_t *state, void *user_data);
-#if defined(SCAGLE_KEY_SWAP)
+#if defined(SCAGLE_KEY_SWAP_ENABLE)
 static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data);
 #endif
 
@@ -15,9 +15,9 @@ static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data);
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_BR_ER] = ACTION_TAP_DANCE_DOUBLE(BRUSH_TOOL_SH, ERASE_TOOL),
     [TD_C_P_X] = ACTION_TAP_DANCE_FN(copy_paste_cut_finish),
-#if defined(SCAGLE_KEY_SWAP)
+#if defined(SCAGLE_KEY_SWAP_ENABLE)
     [TD_SWAP_OS] = ACTION_TAP_DANCE_FN(swap_os_finish),
-#endif  // defined(SCAGLE_KEY_SWAP)
+#endif  // defined(SCAGLE_KEY_SWAP_ENABLE)
 };
 
 // Function Implementations {{{
@@ -42,7 +42,7 @@ static void copy_paste_cut_finish(qk_tap_dance_state_t *state, void *user_data)
 //   - 1 Tap  = Red  Flashes = use Linux (and Windows) modifiers for certain operations
 //   - 2 Taps = Blue Flashes = use MacOS modifiers for certain operations
 
-#if defined(SCAGLE_KEY_SWAP)
+#if defined(SCAGLE_KEY_SWAP_ENABLE)
 
 static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data)
 {
@@ -73,7 +73,7 @@ static void swap_os_finish(qk_tap_dance_state_t *state, void *user_data)
     }
 }
 
-#endif  // defined(SCAGLE_KEY_SWAP)
+#endif  // defined(SCAGLE_KEY_SWAP_ENABLE)
 
 // }}} OS Modifier Swap
 

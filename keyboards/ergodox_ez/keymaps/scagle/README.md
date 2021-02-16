@@ -13,12 +13,4 @@ I could probably get by with the [[https://configure.ergodox-ez.com/|Oryx/Ergodo
 
 
 ## Notable Features
-    * Central Hub / BIOS
-        * Allows me to have as many layouts as I darn well please, for any situation.
-        * Contains version information identifier, who's values are saved at compile time automatically.
-
-    * Remappable Generic Digital Art Keys
-        * All keys on art layers are abstracted [to allow for dynamic context switching between painting applications* TODO]
-
-    * Flexible Features
-        * All features can be enabled or disabled
+See the feature/ directory for all conditionally included features

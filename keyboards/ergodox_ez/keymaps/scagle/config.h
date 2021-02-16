@@ -15,14 +15,17 @@
 #undef  TAPPING_TOGGLE  // ergodox_ez keyboard has default of 1
 #define TAPPING_TOGGLE 2
 
+#if defined(SCAGLE_SLEEP_ENABLE)
+    #define SLEEP_TIME 1  // Time until keyboard turns off all lights (must be [0-127])
+#endif  // defined(SCAGLE_SLEEP_ENABLE)
 
 #if defined(RGBLIGHT_ENABLE)
 
     #undef  RGBLIGHT_ANIMATIONS
 //  #define RGBLIGHT_ANIMATIONS  // consumes ~10% memory. Use cautiously, or define just the ones you want.
 
-    #undef  RGBLIGHT_SLEEP       
-//  #define RGBLIGHT_SLEEP       // ~84 bytes, ~0.28%
+//  #undef  RGBLIGHT_SLEEP       
+    #define RGBLIGHT_SLEEP       // ~84 bytes, ~0.28%
 
 //  #define SCAGLE_RGBLIGHT_ANIMATIONS
 

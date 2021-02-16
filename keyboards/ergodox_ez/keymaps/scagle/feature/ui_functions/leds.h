@@ -5,6 +5,7 @@
 #if defined(SCAGLE_LEDS_ENABLE)
 
 void update_leds(uint8_t layer);
+void set_led_enabled(uint8_t enable);
 
 #endif  // defined(SCAGLE_LEDS_ENABLE)
 

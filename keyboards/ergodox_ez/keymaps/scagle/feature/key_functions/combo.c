@@ -1,6 +1,6 @@
-#include "features/combo.h"
+#include "feature/key_functions/combo.h"
 #include QMK_KEYBOARD_H
-#include "globals.h"
+#include "include/globals.h"
 
 static uint8_t current_layer = HUB;
 

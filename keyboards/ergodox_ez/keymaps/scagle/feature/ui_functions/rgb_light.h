@@ -6,7 +6,6 @@
 
 #include QMK_KEYBOARD_H
 
-void toggle_rgb(keyrecord_t *record);
 void update_rgb(uint8_t layer);
 
 #if defined(SCAGLE_RGBLIGHT_ANIMATIONS)

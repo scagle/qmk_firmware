@@ -16,6 +16,9 @@
 #define KC_PC_PASTE  LCTL(KC_V)
 #define NUM_LEDS     3
 
+#define DISABLED 0
+#define ENABLED  1
+
 enum mapped_key_codes {
 
     // Layer Mappings

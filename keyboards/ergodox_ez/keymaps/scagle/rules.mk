@@ -8,7 +8,8 @@
 
 # My Custom Features
 SCAGLE_LEDS_ENABLE = yes      # [+]   Onboard LEDs
-SCAGLE_KEY_SWAP = yes         # [?]   Dynamically Swappable keys
+SCAGLE_KEY_SWAP_ENABLE = yes         # [?]   Dynamically Swappable keys
+SCAGLE_SLEEP_ENABLE = yes            # [?]   Sleep ligth
 
 # QMK/External Features
 RGBLIGHT_ENABLE = yes         # [++]  RGB Lights. Animations defined in config.h
@@ -24,34 +25,42 @@ CONSOLE_ENABLE = no           # [+++] Allow dumping to console (with "sudo hdi_l
 
 # Sources {{{
 
+SRC += src/background_functions/transitions.c
+
 # Keep track of features to be printed out by keyboard's CKC_VERSION key.
 ENABLED_FEATURES=
 
 ifeq ($(strip $(SCAGLE_LEDS_ENABLE)), yes)
 	ENABLED_FEATURES += leds,
-	SRC += features/leds.c
+	SRC += feature/ui_functions/leds.c
 	OPT_DEFS += -DSCAGLE_LEDS_ENABLE  # Add it manually, since it's custom
 endif
 
-ifeq ($(strip $(SCAGLE_KEY_SWAP)), yes)
+ifeq ($(strip $(SCAGLE_KEY_SWAP_ENABLE)), yes)
 	ENABLED_FEATURES += key_swap,
-	SRC += features/key_swap.c
-	OPT_DEFS += -DSCAGLE_KEY_SWAP  # Add it manually, since it's custom
+	SRC += feature/key_functions/key_swap.c
+	OPT_DEFS += -DSCAGLE_KEY_SWAP_ENABLE  # Add it manually, since it's custom
+endif
+
+ifeq ($(strip $(SCAGLE_SLEEP_ENABLE)), yes)
+	ENABLED_FEATURES += sleep,
+	SRC += feature/background_functions/sleep.c
+	OPT_DEFS += -DSCAGLE_SLEEP_ENABLE  # Add it manually, since it's custom
 endif
 
 ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
 	ENABLED_FEATURES += rgb_light,
-	SRC += features/rgb_light.c
+	SRC += feature/ui_functions/rgb_light.c
 endif
 
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
 	ENABLED_FEATURES += tap_dance,
-	SRC += features/tap_dance.c
+	SRC += feature/key_functions/tap_dance.c
 endif
 
 ifeq ($(strip $(COMBO_ENABLE)), yes)
 	ENABLED_FEATURES += combo,
-	SRC += features/combo.c
+	SRC += feature/key_functions/combo.c
 endif
 
 # }}} Sources

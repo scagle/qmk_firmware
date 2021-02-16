@@ -13,26 +13,23 @@
 #include QMK_KEYBOARD_H   // [KC_*, TO(), etc] (defined externally)
 #include "version.h"      // [LAYOUT_ergodox]  (defined externally)
 
-#include "globals.h"
+#include "include/globals.h"
+#include "include/background_functions/transitions.h"
 
-#include "features/leds.h"
-#include "features/tap_dance.h"
-#include "features/rgb_light.h"
-#include "features/key_swap.h"
-#include "features/combo.h"
-
-// }}}
-
-// Static Variables {{{
-
-static uint8_t last_layer __attribute__((unused)) = HUB;
+#include "feature/ui_functions/leds.h"
+#include "feature/ui_functions/rgb_light.h"
+#include "feature/key_functions/tap_dance.h"
+#include "feature/key_functions/key_swap.h"
+#include "feature/key_functions/combo.h"
+#include "feature/background_functions/sleep.h"
 
 // }}}
 
 // Keyboard Layer Mappings {{{
 // For all keycodes go here: ../../../../docs/keycodes.md
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = 
+{
 
     // Central Hub: Acts as router to other layers {{{
 
@@ -308,8 +305,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Keyboard Functions {{{
 
+void matrix_scan_user(void)
+{
+    #if (SLEEP_TIME != 0) && defined(SCAGLE_SLEEP_ENABLE)
+    update_idle();
+    #endif  // (SLEEP_TIME != 0) && defined(SCAGLE_SLEEP_ENABLE)
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
+    #if defined(SCAGLE_SLEEP_ENABLE)
+    caffeinate_idle();  // Gotta make sure we don't fall asleep :)
+    #endif  // defined(SCAGLE_SLEEP_ENABLE)
+
     switch (keycode)
     {
         case CKC_SHOW_VERSION:  // Print out the version/branch/date of compilation upon keypress
@@ -326,34 +334,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
 uint32_t layer_state_set_user(uint32_t state)
 {
-    const uint8_t layer       __attribute__((unused)) = biton32(state);
+    const uint8_t layer __attribute__((unused)) = biton32(state);
 
-    if (layer != last_layer)
-    {
-        #if defined(SCAGLE_LEDS_ENABLE)
-        update_leds(layer);
-        #endif  // defined(SCAGLE_LEDS_ENABLE)
+    #if defined(SCAGLE_LEDS_ENABLE)
+    update_leds(layer);
+    #endif  // defined(SCAGLE_LEDS_ENABLE)
 
-        #if defined(COMBO_ENABLE)  // If combo functionality is loaded
-        if (is_combo_enabled())    // If combo enabled during runtime
-        {
-            update_combo(layer);
-        }
-        #endif  // defined(SCAGLE_LEDS_ENABLE)
-    }
+    #if defined(COMBO_ENABLE)
+    update_combo(layer);
+    #endif  // defined(COMBO_ENABLE)
 
     #if defined(RGBLIGHT_ENABLE)
     update_rgb(layer);
     #endif  // defined(RGBLIGHT_ENABLE)
 
-    last_layer = layer;
-
     return state;
 };
 
+// Called once keyboard is powered up and initialized.
 void keyboard_post_init_user(void)
 {
-    debug_enable=false;
+    transition(WAKEUP_FROM_POWER);
+}
+
+// Called when PC is suspending or sleeping.
+void suspend_power_down_user(void)
+{
+    transition(SLEEP_FROM_HOST);
+}
+
+// Called when PC is waking up from suspension or sleep
+void suspend_wakeup_init_user(void)
+{
+    transition(WAKEUP_FROM_HOST);
 }
 
 //}}}
